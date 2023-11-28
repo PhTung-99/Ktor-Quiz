@@ -1,0 +1,11 @@
+package dev.timpham.property
+
+data class JWTProperties (
+    val secret: String,
+    val refreshSecret: String,
+    val issuer: String,
+    val audience: String,
+    val realm: String,
+    val expireMinutes: Long,
+    val expireRefreshMinutes: Long,
+)
