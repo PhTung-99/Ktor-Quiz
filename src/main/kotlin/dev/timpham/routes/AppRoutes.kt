@@ -1,8 +1,9 @@
 package dev.timpham.routes
 
 import dev.timpham.features.authentication.authenticationRoute
-import dev.timpham.features.errorutils.clientErrorRoutes
-import dev.timpham.features.errorutils.serverErrorRoutes
+import dev.timpham.features.quiz.quizRoutes
+import dev.timpham.utils.errorutils.clientErrorRoutes
+import dev.timpham.utils.errorutils.serverErrorRoutes
 import dev.timpham.features.user.userRoutes
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
@@ -17,6 +18,7 @@ fun Application.configureRouting() {
         clientErrorRoutes()
         serverErrorRoutes()
         userRoutes()
+        quizRoutes()
         healthRoute()
         authenticationRoute()
     }

@@ -1,4 +1,4 @@
-package dev.timpham.features.errorutils
+package dev.timpham.utils.errorutils
 
 import dev.timpham.data.models.BaseResponse
 import io.ktor.http.*
