@@ -5,7 +5,6 @@ import dev.timpham.data.database.datetypes.timestampWithTimeZone
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.time.Instant
 
-
 object UserEntity : UUIDTable("user") {
     val name = varchar("name", 50)
     val email = varchar("email", 50).uniqueIndex()
