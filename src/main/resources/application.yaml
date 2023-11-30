@@ -12,7 +12,7 @@ ktor:
 local:
     postgres:
         driver: "org.postgresql.Driver"
-        url: "jdbc:postgresql://127.0.0.1:5432/ktor"
+        url: "jdbc:postgresql://127.0.0.1:5432/ktor_quiz"
         user: "postgres"
         password: "admin"
 
@@ -23,7 +23,7 @@ local:
         expireRefreshMinutes: "43200"   #    30 days
         issuer: "http://0.0.0.0:8080/"
         audience: "http://0.0.0.0:8080/hello"
-        realm: "realm"
+        realm: "realm local"
 
     redis:
         host: "localhost"
@@ -32,18 +32,18 @@ local:
 dev:
     postgres:
         driver: "org.postgresql.Driver"
-        url: "jdbc:postgresql://postgres_db:5432/ktor"
+        url: "jdbc:postgresql://postgres_db:5432/ktor_quiz"
         user: "postgres"
         password: "admin"
 
     jwt:
         secret: "jwt-secret-is-very-extremely-secret"
         refreshSecret: "refresh-jwt-secret-is-very-extremely-secret"
-        expireMinutes: "1"
+        expireMinutes: "60"
         expireRefreshMinutes: "43200"   #    30 days
         issuer: "http://0.0.0.0:8080/"
         audience: "http://0.0.0.0:8080/hello"
-        realm: "i don't know what realm is :)"
+        realm: "realm dev"
 
     redis:
         host: "redis"

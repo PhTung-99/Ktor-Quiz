@@ -19,21 +19,17 @@ fun Route.quizRoutes() {
         authenticate(JWTUtils.CONFIGURATIONS_KEY) {
             get("") {
                 val result = quizRepository.getQuizList()
-                call.respond(HttpStatusCode.OK, result)
+                call.respond(result.first, result.second)
             }
 
             get("{id}") {
-                val id = call.parameters["id"]?.toString()
+                val id = call.parameters["id"]
                 if (id == null) {
                     call.respond(HttpStatusCode.BadRequest)
                 } else {
                     val uuidId = UUID.fromString(id)
-                    quizRepository.getQuizById(uuidId)?.let {
-                        call.respond(HttpStatusCode.OK, it)
-                    } ?: kotlin.run {
-                        call.respond(HttpStatusCode.BadRequest)
-                    }
-
+                    val result = quizRepository.getQuizById(uuidId)
+                    call.respond(result.first, result.second)
                 }
             }
         }
