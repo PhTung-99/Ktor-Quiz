@@ -25,22 +25,34 @@ class QuizDAOImpl: QuizDAO {
         return@dbQuery quiz.singleOrNull()?.let(::resultRowToQuiz)
     }
 
-    override suspend fun updateQuiz(id: UUID, name: String, description: String, isActive: Boolean): Quiz? {
+    override suspend fun updateQuiz(id: UUID, name: String, description: String, isActive: Boolean): Quiz? = dbQuery {
         QuizEntity.update({QuizEntity.id eq id}) {
             it[QuizEntity.name] = name
             it[QuizEntity.description] = description
             it[QuizEntity.isActive] = isActive
         }
-        return getQuizById(id)
+        getQuizById(id)
     }
 
-    override suspend fun deleteQuiz(id: UUID): Boolean {
-        return QuizEntity.deleteWhere {
+    override suspend fun deleteQuiz(id: UUID): Boolean  = dbQuery {
+        QuizEntity.deleteWhere {
             QuizEntity.id eq id
         } > 0
     }
 
-    override suspend fun getQuizList(): List<Quiz> = dbQuery {
-        QuizEntity.selectAll().map(::resultRowToQuiz)
+    override suspend fun getQuizList(isActive: Boolean?): List<Quiz> = dbQuery {
+        // selectAll when isActive is null, else not null query with isActive
+        if (isActive != null) {
+            QuizEntity.select {
+                QuizEntity.isActive eq isActive
+            }
+                .sortedByDescending { QuizEntity.createAtUTC }
+                .map(::resultRowToQuiz)
+        } else {
+            QuizEntity
+                .selectAll()
+                .sortedByDescending { QuizEntity.createAtUTC }
+                .map(::resultRowToQuiz)
+        }
     }
 }

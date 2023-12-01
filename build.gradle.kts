@@ -34,6 +34,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-server-config-yaml")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
+//    implementation("io.ktor:ktor-server-request-validation:$ktor_version")
 
     implementation("org.mindrot:jbcrypt:0.4")
 
