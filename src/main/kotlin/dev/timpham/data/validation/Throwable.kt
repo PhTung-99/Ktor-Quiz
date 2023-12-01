@@ -9,7 +9,7 @@ import kotlinx.serialization.SerializationException
 fun Application.validationConfig() {
     install(StatusPages) {
         exception<SerializationException> { call, cause ->
-            call.respond(HttpStatusCode.UnprocessableEntity)
+            call.respond(HttpStatusCode.UnprocessableEntity, mapOf("exception" to cause.message))
         }
         exception<Throwable> { call, cause ->
             call.respond(HttpStatusCode.InternalServerError, mapOf("exception" to cause.message))

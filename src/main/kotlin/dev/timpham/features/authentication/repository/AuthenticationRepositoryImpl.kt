@@ -1,8 +1,9 @@
 package dev.timpham.features.authentication.repository
 
 import dev.timpham.authentication.JWTUtils
-import dev.timpham.constants.Constants
-import dev.timpham.data.models.BaseResponse
+import dev.timpham.common.alias.ResponseAlias
+import dev.timpham.common.constants.Constants
+import dev.timpham.common.models.BaseResponse
 import dev.timpham.data.features.user.dao.UserDAO
 import dev.timpham.data.features.user.dao.UserTokenDAO
 import dev.timpham.data.features.user.models.User
@@ -31,7 +32,7 @@ class AuthenticationRepositoryImpl(
         signupRequest: SignupRequest,
         fileByte: ByteArray?,
         originalFileName: String?,
-    ): Pair<HttpStatusCode,BaseResponse<User?>> {
+    ): ResponseAlias<User?> {
         return if (isEmailAvailable(signupRequest.email)) {
             val hashedPassword = BCrypt.hashpw(signupRequest.password, BCrypt.gensalt())
             var avatar: String? = null
@@ -77,7 +78,7 @@ class AuthenticationRepositoryImpl(
         }
     }
 
-    override suspend fun login(loginRequest: LoginRequest): Pair<HttpStatusCode,BaseResponse<LoginResponse?>> {
+    override suspend fun login(loginRequest: LoginRequest): ResponseAlias<LoginResponse?> {
         val user = userDAO.getUserByEmail(loginRequest.email)
         return if (user != null) {
             val isPasswordCorrect = BCrypt.checkpw(loginRequest.password, user.password)
@@ -106,7 +107,7 @@ class AuthenticationRepositoryImpl(
     override suspend fun refreshToken(
         userId: UUID,
         refreshToken: String,
-    ): Pair<HttpStatusCode,BaseResponse<LoginResponse?>> {
+    ): ResponseAlias<LoginResponse?> {
         val isRefreshValid = JWTUtils.isTokenValid(refreshToken)
         if (isRefreshValid) {
             val lastToken = userTokenDAO.getRefreshTokenByUserId(userId)
@@ -126,7 +127,7 @@ class AuthenticationRepositoryImpl(
         )
     }
 
-    override suspend fun logout(token: String, refreshToken: String): Pair<HttpStatusCode, BaseResponse<Boolean>> {
+    override suspend fun logout(token: String, refreshToken: String): ResponseAlias<Boolean> {
         return try {
             val isRefreshValid = JWTUtils.isTokenValid(refreshToken)
             if (isRefreshValid) {
@@ -152,7 +153,7 @@ class AuthenticationRepositoryImpl(
         return JWTToken(accessToken = accessToken, refreshToken = refreshToken)
     }
 
-    private suspend fun onLogin(user: User): Pair<HttpStatusCode, BaseResponse<LoginResponse?>> {
+    private suspend fun onLogin(user: User): ResponseAlias<LoginResponse?> {
         return try {
             val jwtToken = onGenerateToken(user)
             val loginResponse = LoginResponse(

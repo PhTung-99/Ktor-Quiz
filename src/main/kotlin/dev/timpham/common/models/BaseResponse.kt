@@ -1,4 +1,4 @@
-package dev.timpham.data.models
+package dev.timpham.common.models
 
 import kotlinx.serialization.Serializable
 

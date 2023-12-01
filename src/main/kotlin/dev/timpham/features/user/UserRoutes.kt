@@ -15,7 +15,6 @@ fun Route.userRoutes() {
     val userRepository: UserRepository by inject()
 
     route("/user") {
-
         authenticate(JWTUtils.CONFIGURATIONS_KEY) {
             get("info") {
                 val principal = call.principal<AppJWTPrincipal>()

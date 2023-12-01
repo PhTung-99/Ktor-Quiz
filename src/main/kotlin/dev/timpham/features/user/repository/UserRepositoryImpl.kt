@@ -1,6 +1,7 @@
 package dev.timpham.features.user.repository
 
-import dev.timpham.data.models.BaseResponse
+import dev.timpham.common.alias.ResponseAlias
+import dev.timpham.common.models.BaseResponse
 import dev.timpham.data.features.user.dao.UserDAO
 import dev.timpham.data.features.user.models.User
 import dev.timpham.features.user.constants.UserMessageCode
@@ -11,7 +12,7 @@ class UserRepositoryImpl(
     private val userDAO: UserDAO
 ): UserRepository {
 
-    override suspend fun getUserInfo(userId: UUID): Pair<HttpStatusCode, BaseResponse<User?>> {
+    override suspend fun getUserInfo(userId: UUID): ResponseAlias<User?> {
         val user = userDAO.getUserById(userId)
         return user?.let {
             return Pair(

@@ -1,6 +1,6 @@
 package dev.timpham.authentication
 
-import dev.timpham.constants.Expressions
+import dev.timpham.common.constants.Expressions
 import dev.timpham.features.authentication.constants.AuthenticationMessageCode
 import io.ktor.http.*
 import io.ktor.server.application.*

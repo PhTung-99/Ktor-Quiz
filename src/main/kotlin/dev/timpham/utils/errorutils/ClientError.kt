@@ -1,6 +1,6 @@
 package dev.timpham.utils.errorutils
 
-import dev.timpham.data.models.BaseResponse
+import dev.timpham.common.models.BaseResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*

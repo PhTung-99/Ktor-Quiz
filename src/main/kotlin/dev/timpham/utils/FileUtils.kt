@@ -1,6 +1,6 @@
 package dev.timpham.utils
 
-import dev.timpham.constants.Constants
+import dev.timpham.common.constants.Constants
 import java.io.File
 import java.util.*
 

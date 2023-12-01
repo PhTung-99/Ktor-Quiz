@@ -1,4 +1,4 @@
-package dev.timpham.constants
+package dev.timpham.common.constants
 
 import java.util.regex.Pattern
 

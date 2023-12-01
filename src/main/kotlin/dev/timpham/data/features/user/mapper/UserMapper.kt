@@ -1,6 +1,6 @@
 package dev.timpham.data.features.user.mapper
 
-import dev.timpham.constants.Constants
+import dev.timpham.common.constants.Constants
 import dev.timpham.data.features.user.entity.UserEntity
 import dev.timpham.data.features.user.entity.UserTokenEntity
 import dev.timpham.data.features.user.models.User
