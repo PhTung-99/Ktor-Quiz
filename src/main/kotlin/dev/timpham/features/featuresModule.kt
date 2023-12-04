@@ -1,5 +1,7 @@
 package dev.timpham.features
 
+import dev.timpham.features.answer.repository.AnswerRepository
+import dev.timpham.features.answer.repository.AnswerRepositoryImpl
 import dev.timpham.features.authentication.repository.AuthenticationRepository
 import dev.timpham.features.authentication.repository.AuthenticationRepositoryImpl
 import dev.timpham.features.question.repository.QuestionRepository
@@ -14,5 +16,6 @@ val featuresModule = module {
     single<UserRepository> { UserRepositoryImpl(get()) }
     single<AuthenticationRepository> { AuthenticationRepositoryImpl(get(), get()) }
     single<QuizRepository> { QuizRepositoryImpl(get()) }
-    single<QuestionRepository> { QuestionRepositoryImpl(get()) }
+    single<QuestionRepository> { QuestionRepositoryImpl(get(), get()) }
+    single<AnswerRepository> { AnswerRepositoryImpl(get()) }
 }

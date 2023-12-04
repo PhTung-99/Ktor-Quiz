@@ -8,6 +8,7 @@ fun resultRowToQuestion(row: ResultRow) = Question(
     id = row[QuestionEntity.id].value,
     content = row[QuestionEntity.content],
     highlight = row[QuestionEntity.highlight],
+    score = row[QuestionEntity.score],
     quizId = row[QuestionEntity.quizId],
     createAtUTC = row[QuestionEntity.createAtUTC],
     isDeleted = row[QuestionEntity.isDeleted],

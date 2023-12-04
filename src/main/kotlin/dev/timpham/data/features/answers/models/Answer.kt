@@ -1,4 +1,4 @@
-package dev.timpham.data.features.question.models
+package dev.timpham.data.features.answers.models
 
 import dev.timpham.plugin.serializable.custom.InstantSerializer
 import dev.timpham.plugin.serializable.custom.UUIDSerializer
@@ -7,14 +7,13 @@ import java.time.Instant
 import java.util.UUID
 
 @Serializable
-data class Question(
+data class Answer(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
     val content: String,
-    val highlight: String?,
-    val score: Int,
+    val isCorrect: Boolean,
     @Serializable(with = UUIDSerializer::class)
-    val quizId: UUID,
+    val questionId: UUID,
     @Serializable(with = InstantSerializer::class)
     val createAtUTC: Instant,
     val isDeleted: Boolean,

@@ -1,5 +1,6 @@
 package dev.timpham.routes
 
+import dev.timpham.features.answer.answerRoutes
 import dev.timpham.features.authentication.authenticationRoute
 import dev.timpham.features.quiz.quizRoutes
 import dev.timpham.utils.errorutils.clientErrorRoutes
@@ -19,6 +20,7 @@ fun Application.configureRouting() {
         serverErrorRoutes()
         userRoutes()
         quizRoutes()
+        answerRoutes()
         healthRoute()
         authenticationRoute()
     }

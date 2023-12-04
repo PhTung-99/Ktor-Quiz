@@ -19,7 +19,7 @@ class QuestionDAOImpl: QuestionDAO {
     override suspend fun getQuestionsByQuizId(quizId: UUID): List<Question> = dbQuery {
         QuestionEntity.select {
             QuestionEntity.quizId eq quizId
-        }.map(::resultRowToQuestion)
+        }.mapNotNull(::resultRowToQuestion)
     }
 
     override suspend fun createQuestion(content: String, highlight: String, quizId: UUID): Question? = dbQuery {
