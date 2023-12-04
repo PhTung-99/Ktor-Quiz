@@ -18,6 +18,14 @@ class AnswerRepositoryImpl(
         }
     }
 
+    override suspend fun getAnswersByQuestionId(questionId: UUID): ResponseAlias<List<Answer>> {
+        return answerDAO.getAnswersByQuestionId(questionId)?.let {
+            return Pair(HttpStatusCode.OK, BaseResponse(it))
+        } ?: run {
+            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_ANSWER"))
+        }
+    }
+
     override suspend fun createAnswer(content: String, isCorrect: Boolean, questionId: UUID): ResponseAlias<Answer?> {
         answerDAO.createAnswer(content, isCorrect, questionId)?.let {
             return Pair(HttpStatusCode.Created, BaseResponse(it))

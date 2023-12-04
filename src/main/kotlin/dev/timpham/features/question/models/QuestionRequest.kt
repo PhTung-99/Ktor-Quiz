@@ -7,7 +7,8 @@ import java.util.UUID
 @Serializable
 data class QuestionRequest(
     val content: String,
-    val highlight: String,
+    val highlight: String? = null,
+    val score: Int,
     @Serializable(with = UUIDSerializer::class)
     val quizId: UUID,
 )

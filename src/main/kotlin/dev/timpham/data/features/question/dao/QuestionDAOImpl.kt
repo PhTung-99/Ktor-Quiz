@@ -22,16 +22,17 @@ class QuestionDAOImpl: QuestionDAO {
         }.mapNotNull(::resultRowToQuestion)
     }
 
-    override suspend fun createQuestion(content: String, highlight: String, quizId: UUID): Question? = dbQuery {
+    override suspend fun createQuestion(content: String, highlight: String?, score: Int, quizId: UUID): Question? = dbQuery {
         val createStatement = QuestionEntity.insert {
             it[QuestionEntity.content] = content
             it[QuestionEntity.highlight] = highlight
+            it[QuestionEntity.score] = score
             it[QuestionEntity.quizId] = quizId
         }
         createStatement.resultedValues?.singleOrNull()?.let(::resultRowToQuestion)
     }
 
-    override suspend fun updateQuestion(id: UUID, content: String, highlight: String, quizId: UUID): Question? = dbQuery {
+    override suspend fun updateQuestion(id: UUID, content: String, highlight: String?, quizId: UUID): Question? = dbQuery {
         QuestionEntity.update({QuestionEntity.id eq id}) {
             it[QuestionEntity.content] = content
             it[QuestionEntity.highlight] = highlight

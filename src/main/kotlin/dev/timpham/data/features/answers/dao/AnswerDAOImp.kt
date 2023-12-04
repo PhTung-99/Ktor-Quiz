@@ -18,6 +18,12 @@ class AnswerDAOImp : AnswerDAO {
         }.singleOrNull()?.let(::resultRowToAnswer)
     }
 
+    override suspend fun getAnswersByQuestionId(questionId: UUID): List<Answer> = dbQuery {
+        AnswerEntity.select {
+            AnswerEntity.questionId eq questionId
+        }.mapNotNull(::resultRowToAnswer)
+    }
+
     override suspend fun createAnswer(content: String, isCorrect: Boolean, questionId: UUID): Answer? = dbQuery {
         val createStatement = AnswerEntity.insert { it ->
             it[AnswerEntity.content] = content

@@ -1,5 +1,6 @@
 package dev.timpham.data.database
 
+import dev.timpham.data.features.answers.entity.AnswerEntity
 import dev.timpham.data.features.question.entity.QuestionEntity
 import dev.timpham.data.features.quiz.entity.QuizEntity
 import dev.timpham.data.features.user.entity.UserEntity
@@ -28,6 +29,7 @@ object DatabaseFactory {
                 SchemaUtils.create(UserTokenEntity)
                 SchemaUtils.create(QuizEntity)
                 SchemaUtils.create(QuestionEntity)
+                SchemaUtils.create(AnswerEntity)
             }
             true
         } catch (e: Exception) {

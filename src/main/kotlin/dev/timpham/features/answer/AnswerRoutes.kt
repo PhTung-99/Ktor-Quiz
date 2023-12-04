@@ -14,11 +14,17 @@ import java.util.*
 fun Route.answerRoutes() {
     val answerRepository: AnswerRepository by inject()
 
-    route("/quiz") {
+    route("/answer") {
         authenticate(JWTUtils.CONFIGURATIONS_KEY) {
             get("{id}") {
                 val id = UUID.fromString(call.parameters["id"])
                 val result = answerRepository.getAnswerById(id)
+                call.respond(result.first, result.second)
+            }
+
+            get("by-question/{questionId}") {
+                val questionId = UUID.fromString(call.parameters["questionId"])
+                val result = answerRepository.getAnswersByQuestionId(questionId)
                 call.respond(result.first, result.second)
             }
 

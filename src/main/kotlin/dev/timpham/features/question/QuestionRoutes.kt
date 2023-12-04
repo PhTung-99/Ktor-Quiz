@@ -16,7 +16,7 @@ fun Route.questionRoutes() {
 
     val questionRepository: QuestionRepository by inject()
 
-    route("/user") {
+    route("/question") {
         authenticate(JWTUtils.CONFIGURATIONS_KEY) {
 
             get("{id}") {

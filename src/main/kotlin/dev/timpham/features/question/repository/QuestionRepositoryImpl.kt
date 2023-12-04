@@ -31,7 +31,7 @@ class QuestionRepositoryImpl(
     }
 
     override suspend fun createQuestion(question: QuestionRequest): ResponseAlias<Question?> {
-        questionDAO.createQuestion(question.content, question.highlight, question.quizId)?.let {
+        questionDAO.createQuestion(question.content, question.highlight, question.score, question.quizId)?.let {
             return Pair(HttpStatusCode.Created, BaseResponse(data = it))
         } ?: kotlin.run {
             return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "CREATE_QUIZ_FAILED"))
