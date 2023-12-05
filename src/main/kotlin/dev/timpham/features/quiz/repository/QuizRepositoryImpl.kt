@@ -12,11 +12,10 @@ class QuizRepositoryImpl(
     private val quizDao: QuizDAO
 ): QuizRepository {
     override suspend fun createQuiz(quizRequest: QuizRequest): ResponseAlias<Quiz?> {
-        return quizDao.createQuiz(quizRequest.name, quizRequest.description, quizRequest.isActive)?.let {
-            Pair(HttpStatusCode.Created, BaseResponse(data = it))
-        } ?: kotlin.run {
-            Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "CREATE_QUIZ_FAILED"))
-        }
+        return Pair(
+            HttpStatusCode.Created,
+            BaseResponse(data = quizDao.createQuiz(quizRequest.name, quizRequest.description, quizRequest.isActive))
+        )
     }
 
     override suspend fun getQuizById(id: UUID): ResponseAlias<Quiz?> {

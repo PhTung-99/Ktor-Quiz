@@ -8,6 +8,6 @@ interface QuestionDAO {
     suspend fun getQuestionsByQuizId(quizId: UUID): List<Question>
     suspend fun getQuestionWithAnswersById(id: UUID): Question?
     suspend fun createQuestion(content: String, highlight: String?, score: Int, quizId: UUID): Question?
-    suspend fun updateQuestion(id: UUID, content: String, highlight: String?, quizId: UUID): Question?
+    suspend fun updateQuestion(id: UUID, content: String, highlight: String?, score: Int, quizId: UUID): Question?
     suspend fun deleteQuestion(id: UUID): Boolean
 }

@@ -1,10 +1,10 @@
 package dev.timpham.data.features.answers.entity
 
 import dev.timpham.data.database.BaseTable
-import dev.timpham.data.features.question.entity.QuestionTable
+import dev.timpham.data.features.question.entity.Questions
 
-object AnswerTable: BaseTable("answer") {
+object Answers: BaseTable("answer") {
     val content = varchar("content", 500)
     val isCorrect = bool("is_correct")
-    val question = reference("question", QuestionTable)
+    val question = reference("question", Questions)
 }

@@ -52,7 +52,7 @@ class QuestionRepositoryImpl(
 
     override suspend fun updateQuestion(id: UUID, question: QuestionRequest): ResponseAlias<Question?> {
         quizDAO.getQuizById(question.quizId)?.let{
-            questionDAO.updateQuestion(id, question.content, question.highlight, question.quizId)?.let {
+            questionDAO.updateQuestion(id, question.content, question.highlight, question.score, question.quizId)?.let {
                 return Pair(HttpStatusCode.OK, BaseResponse(data = it))
             } ?: kotlin.run {
                 return Pair(HttpStatusCode.OK, BaseResponse(messageCode = "UPDATE_QUESTION_FAILED"))

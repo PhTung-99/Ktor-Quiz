@@ -1,7 +1,5 @@
 package dev.timpham.data
 
-import dev.timpham.data.features.answers.dao.AnswerDAO
-import dev.timpham.data.features.answers.dao.AnswerDAOImp
 import dev.timpham.data.features.question.dao.QuestionDAO
 import dev.timpham.data.features.question.dao.QuestionDAOImpl
 import dev.timpham.data.features.quiz.dao.QuizDAO
@@ -18,5 +16,5 @@ val dataModule = module {
 
     single<QuizDAO> { QuizDAOImpl() }
     single<QuestionDAO> { QuestionDAOImpl() }
-    single<AnswerDAO> { AnswerDAOImp() }
+//    single<AnswerDAO> { AnswerDAOImp() }
 }

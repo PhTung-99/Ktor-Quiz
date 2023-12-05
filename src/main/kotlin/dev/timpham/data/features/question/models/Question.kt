@@ -18,6 +18,6 @@ data class Question(
     val quizId: UUID,
     val answers: List<Answer>?,
     @Serializable(with = InstantSerializer::class)
-    val createAtUTC: Instant,
+    val createdAtUTC: Instant,
     val isDeleted: Boolean,
 )
