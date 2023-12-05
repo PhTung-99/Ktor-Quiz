@@ -1,8 +1,8 @@
 package dev.timpham.data.features.user.dao
 
 import dev.timpham.data.database.DatabaseFactory.dbQuery
-import dev.timpham.data.features.user.entity.UserEntity
-import dev.timpham.data.features.user.entity.UserTokenEntity
+import dev.timpham.data.features.user.entity.UserTable
+import dev.timpham.data.features.user.entity.UserTokenTable
 import dev.timpham.data.features.user.mapper.resultRowToUser
 import dev.timpham.data.features.user.mapper.resultRowToUserWithPassword
 import dev.timpham.data.features.user.mapper.resultRowToUserToken
@@ -15,40 +15,40 @@ import java.util.*
 class UserDAOImpl: UserDAO {
 
     override suspend fun emailUsed(email: String): Boolean = dbQuery {
-        val useEmail = UserEntity.select {
-            UserEntity.email eq email
+        val useEmail = UserTable.select {
+            UserTable.email eq email
         }
         return@dbQuery useEmail.count() > 0L
     }
 
     override suspend fun createUser(email: String, name: String, password: String, avatar: String?): User? = dbQuery {
-        val createStatement = UserEntity.insert {
-            it[UserEntity.name] = name
-            it[UserEntity.email] = email
-            it[UserEntity.password] = password
-            it[UserEntity.avatar] = avatar
+        val createStatement = UserTable.insert {
+            it[UserTable.name] = name
+            it[UserTable.email] = email
+            it[UserTable.password] = password
+            it[UserTable.avatar] = avatar
         }
         createStatement.resultedValues?.singleOrNull()?.let(::resultRowToUserWithPassword)
     }
 
     override suspend fun getUserByEmail(email: String): User? = dbQuery {
-        val user = UserEntity.select {
-            UserEntity.email eq email
+        val user = UserTable.select {
+            UserTable.email eq email
         }
         return@dbQuery user.singleOrNull()?.let(::resultRowToUserWithPassword)
     }
 
     override suspend fun getUserById(id: UUID): User? = dbQuery {
-        val user = UserEntity.select {
-            UserEntity.id eq id
+        val user = UserTable.select {
+            UserTable.id eq id
         }
         return@dbQuery user.singleOrNull()?.let(::resultRowToUser)
     }
 
     override suspend fun saveRefreshToken(userId: UUID, refreshToken: String): UserToken? = dbQuery {
-        val createStatement = UserTokenEntity.insert {
-            it[UserTokenEntity.userId] = userId
-            it[UserTokenEntity.refreshToken] = refreshToken
+        val createStatement = UserTokenTable.insert {
+            it[UserTokenTable.userId] = userId
+            it[UserTokenTable.refreshToken] = refreshToken
         }
         createStatement.resultedValues?.singleOrNull()?.let(::resultRowToUserToken)
     }

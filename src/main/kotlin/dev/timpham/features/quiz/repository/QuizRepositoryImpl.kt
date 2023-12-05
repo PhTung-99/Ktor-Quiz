@@ -44,12 +44,7 @@ class QuizRepositoryImpl(
     override suspend fun deleteQuiz(id: UUID): ResponseAlias<Boolean> {
         quizDao.getQuizById(id)
             ?: return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUIZ"))
-        val result = quizDao.deleteQuiz(id)
-        return if (result) {
-            Pair(HttpStatusCode.OK, BaseResponse(data = true))
-        } else {
-            Pair(HttpStatusCode.InternalServerError, BaseResponse(messageCode = "DELETE_QUIZ_FAILED"))
-        }
+        quizDao.deleteQuiz(id)
+        return Pair(HttpStatusCode.OK, BaseResponse(data = true))
     }
-
 }

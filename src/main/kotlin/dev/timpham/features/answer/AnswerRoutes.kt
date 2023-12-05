@@ -30,14 +30,14 @@ fun Route.answerRoutes() {
 
             post {
                 val request = call.receive<AnswerRequest>()
-                val result = answerRepository.createAnswer(request.content, request.isCorrect, request.questionId)
+                val result = answerRepository.createAnswer(request)
                 call.respond(result.first, result.second)
             }
 
             put("{id}") {
                 val id = UUID.fromString(call.parameters["id"])
                 val request = call.receive<AnswerRequest>()
-                val result = answerRepository.updateAnswer(id, request.content, request.isCorrect, request.questionId)
+                val result = answerRepository.updateAnswer(id, request)
                 call.respond(result.first, result.second)
             }
 

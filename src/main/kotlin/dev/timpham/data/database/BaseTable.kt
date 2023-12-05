@@ -7,9 +7,9 @@ import org.jetbrains.exposed.sql.Column
 import java.time.Instant
 import java.util.UUID
 
-open class BaseTable(name: String = "", columnName: String = "id"): IdTable<UUID>(name) {
+abstract class BaseTable(name: String = "", columnName: String = "id"): IdTable<UUID>(name) {
     final override val id: Column<EntityID<UUID>> = uuid(columnName).autoGenerate().entityId()
     final override val primaryKey = PrimaryKey(id)
-    val createAtUTC = timestampWithTimeZone("created_at_UTC").default(Instant.now())
+    val createdAtUTC = timestampWithTimeZone("created_at_UTC").default(Instant.now())
     val isDeleted = bool("is_deleted").default(defaultValue = false)
 }

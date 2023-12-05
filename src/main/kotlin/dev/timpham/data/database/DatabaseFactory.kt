@@ -1,10 +1,10 @@
 package dev.timpham.data.database
 
-import dev.timpham.data.features.answers.entity.AnswerEntity
-import dev.timpham.data.features.question.entity.QuestionEntity
-import dev.timpham.data.features.quiz.entity.QuizEntity
-import dev.timpham.data.features.user.entity.UserEntity
-import dev.timpham.data.features.user.entity.UserTokenEntity
+import dev.timpham.data.features.answers.entity.AnswerTable
+import dev.timpham.data.features.question.entity.QuestionTable
+import dev.timpham.data.features.quiz.entity.Quizzes
+import dev.timpham.data.features.user.entity.UserTable
+import dev.timpham.data.features.user.entity.UserTokenTable
 import dev.timpham.property.AppProperties
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -25,11 +25,11 @@ object DatabaseFactory {
             val database = Database.connect(jdbcURL, driverClassName, user, password)
             database.connector() // Attempt to connect
             transaction(database) {
-                SchemaUtils.create(UserEntity)
-                SchemaUtils.create(UserTokenEntity)
-                SchemaUtils.create(QuizEntity)
-                SchemaUtils.create(QuestionEntity)
-                SchemaUtils.create(AnswerEntity)
+                SchemaUtils.create(UserTable)
+                SchemaUtils.create(UserTokenTable)
+                SchemaUtils.create(Quizzes)
+                SchemaUtils.create(QuestionTable)
+                SchemaUtils.create(AnswerTable)
             }
             true
         } catch (e: Exception) {

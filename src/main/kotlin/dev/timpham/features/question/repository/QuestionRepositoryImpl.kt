@@ -34,23 +34,31 @@ class QuestionRepositoryImpl(
         quiz?.let {
             return Pair(HttpStatusCode.OK, BaseResponse(data = questionDAO.getQuestionsByQuizId(quizId)))
         } ?: kotlin.run {
-            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUESTION"))
+            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUIZ"))
         }
     }
 
     override suspend fun createQuestion(question: QuestionRequest): ResponseAlias<Question?> {
-        questionDAO.createQuestion(question.content, question.highlight, question.score, question.quizId)?.let {
-            return Pair(HttpStatusCode.Created, BaseResponse(data = it))
-        } ?: kotlin.run {
-            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "CREATE_QUESTION_FAILED"))
+        quizDAO.getQuizById(question.quizId)?.let {
+            questionDAO.createQuestion(question.content, question.highlight, question.score, question.quizId)?.let {
+                return Pair(HttpStatusCode.Created, BaseResponse(data = it))
+            } ?: kotlin.run {
+                return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "CREATE_QUESTION_FAILED"))
+            }
+        } ?: run {
+            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUIZ"))
         }
     }
 
     override suspend fun updateQuestion(id: UUID, question: QuestionRequest): ResponseAlias<Question?> {
-        questionDAO.updateQuestion(id, question.content, question.highlight, question.quizId)?.let {
-            return Pair(HttpStatusCode.OK, BaseResponse(data = it))
-        } ?: kotlin.run {
-            return Pair(HttpStatusCode.OK, BaseResponse(messageCode = "UPDATE_QUESTION_FAILED"))
+        quizDAO.getQuizById(question.quizId)?.let{
+            questionDAO.updateQuestion(id, question.content, question.highlight, question.quizId)?.let {
+                return Pair(HttpStatusCode.OK, BaseResponse(data = it))
+            } ?: kotlin.run {
+                return Pair(HttpStatusCode.OK, BaseResponse(messageCode = "UPDATE_QUESTION_FAILED"))
+            }
+        } ?: run {
+            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUIZ"))
         }
     }
 
@@ -64,5 +72,4 @@ class QuestionRepositoryImpl(
             Pair(HttpStatusCode.InternalServerError, BaseResponse(messageCode = "DELETE_QUESTION_FAILED"))
         }
     }
-
 }

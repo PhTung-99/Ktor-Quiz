@@ -1,9 +1,14 @@
 package dev.timpham.data.features.quiz.entity
 
-import dev.timpham.data.database.BaseTable
+import dev.timpham.data.database.BaseEntity
+import org.jetbrains.exposed.dao.UUIDEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import java.util.*
 
-object QuizEntity: BaseTable("quiz") {
-    val name = varchar("name", 50)
-    val description = varchar("description", 200)
-    val isActive = bool("is_active")
+class QuizEntity(id: EntityID<UUID>): BaseEntity(id, Quizzes) {
+    companion object : UUIDEntityClass<QuizEntity>(Quizzes)
+
+    var name by Quizzes.name
+    var description by Quizzes.description
+    var isActive by Quizzes.isActive
 }

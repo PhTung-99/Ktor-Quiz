@@ -1,16 +1,16 @@
 package dev.timpham.data.features.question.mapper
 
-import dev.timpham.data.features.question.entity.QuestionEntity
+import dev.timpham.data.features.question.entity.QuestionTable
 import dev.timpham.data.features.question.models.Question
 import org.jetbrains.exposed.sql.ResultRow
 
 fun resultRowToQuestion(row: ResultRow) = Question(
-    id = row[QuestionEntity.id].value,
-    content = row[QuestionEntity.content],
-    highlight = row[QuestionEntity.highlight],
-    score = row[QuestionEntity.score],
-    quizId = row[QuestionEntity.quiz].value,
+    id = row[QuestionTable.id].value,
+    content = row[QuestionTable.content],
+    highlight = row[QuestionTable.highlight],
+    score = row[QuestionTable.score],
+    quizId = row[QuestionTable.quiz].value,
     answers = listOf(),
-    createAtUTC = row[QuestionEntity.createAtUTC],
-    isDeleted = row[QuestionEntity.isDeleted],
+    createAtUTC = row[QuestionTable.createdAtUTC],
+    isDeleted = row[QuestionTable.isDeleted],
 )
