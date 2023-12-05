@@ -10,7 +10,7 @@ import java.util.UUID
 class GamePlayDAOImpl: GamePlayDAO {
     override suspend fun getGameplay(quizId: UUID): List<Question> = dbQuery {
         QuestionEntity.select {
-            QuestionEntity.quizId eq quizId
+            QuestionEntity.quiz eq quizId
         }
             .mapNotNull(::resultRowToQuestion)
     }

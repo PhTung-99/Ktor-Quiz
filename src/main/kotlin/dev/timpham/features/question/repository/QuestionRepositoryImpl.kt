@@ -17,7 +17,15 @@ class QuestionRepositoryImpl(
         return questionDAO.getQuestionById(id)?.let {
             Pair(HttpStatusCode.OK, BaseResponse(data = it))
         } ?: kotlin.run {
-            Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUIZ"))
+            Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUESTION"))
+        }
+    }
+
+    override suspend fun getQuestionWithAnswer(id: UUID): ResponseAlias<Question?> {
+        return questionDAO.getQuestionWithAnswersById(id)?.let {
+            Pair(HttpStatusCode.OK, BaseResponse(data = it))
+        } ?: kotlin.run {
+            Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUESTION"))
         }
     }
 
@@ -26,7 +34,7 @@ class QuestionRepositoryImpl(
         quiz?.let {
             return Pair(HttpStatusCode.OK, BaseResponse(data = questionDAO.getQuestionsByQuizId(quizId)))
         } ?: kotlin.run {
-            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUIZ"))
+            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUESTION"))
         }
     }
 
@@ -34,7 +42,7 @@ class QuestionRepositoryImpl(
         questionDAO.createQuestion(question.content, question.highlight, question.score, question.quizId)?.let {
             return Pair(HttpStatusCode.Created, BaseResponse(data = it))
         } ?: kotlin.run {
-            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "CREATE_QUIZ_FAILED"))
+            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "CREATE_QUESTION_FAILED"))
         }
     }
 
@@ -42,18 +50,18 @@ class QuestionRepositoryImpl(
         questionDAO.updateQuestion(id, question.content, question.highlight, question.quizId)?.let {
             return Pair(HttpStatusCode.OK, BaseResponse(data = it))
         } ?: kotlin.run {
-            return Pair(HttpStatusCode.OK, BaseResponse(messageCode = "UPDATE_QUIZ_FAILED"))
+            return Pair(HttpStatusCode.OK, BaseResponse(messageCode = "UPDATE_QUESTION_FAILED"))
         }
     }
 
     override suspend fun deleteQuestion(id: UUID): ResponseAlias<Boolean> {
         questionDAO.getQuestionById(id)
-            ?: return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUIZ"))
+            ?: return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUESTION"))
         val result = questionDAO.deleteQuestion(id)
         return if (result) {
             Pair(HttpStatusCode.OK, BaseResponse(data = true))
         } else {
-            Pair(HttpStatusCode.InternalServerError, BaseResponse(messageCode = "DELETE_QUIZ_FAILED"))
+            Pair(HttpStatusCode.InternalServerError, BaseResponse(messageCode = "DELETE_QUESTION_FAILED"))
         }
     }
 

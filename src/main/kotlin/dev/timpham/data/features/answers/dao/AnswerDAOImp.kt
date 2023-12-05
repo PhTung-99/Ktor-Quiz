@@ -20,7 +20,7 @@ class AnswerDAOImp : AnswerDAO {
 
     override suspend fun getAnswersByQuestionId(questionId: UUID): List<Answer> = dbQuery {
         AnswerEntity.select {
-            AnswerEntity.questionId eq questionId
+            AnswerEntity.question eq questionId
         }.mapNotNull(::resultRowToAnswer)
     }
 
@@ -28,7 +28,7 @@ class AnswerDAOImp : AnswerDAO {
         val createStatement = AnswerEntity.insert { it ->
             it[AnswerEntity.content] = content
             it[AnswerEntity.isCorrect] = isCorrect
-            it[AnswerEntity.questionId] = questionId
+            it[question] = questionId
         }
         createStatement.resultedValues?.singleOrNull()?.let(::resultRowToAnswer)
     }
@@ -38,7 +38,7 @@ class AnswerDAOImp : AnswerDAO {
             AnswerEntity.update({ AnswerEntity.id eq id }) {
                 it[AnswerEntity.content] = content
                 it[AnswerEntity.isCorrect] = isCorrect
-                it[AnswerEntity.questionId] = questionId
+                it[question] = questionId
             }
             getAnswerById(id)
         }

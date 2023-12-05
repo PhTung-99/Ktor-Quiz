@@ -12,8 +12,8 @@ data class Answer(
     val id: UUID,
     val content: String,
     val isCorrect: Boolean,
-    @Serializable(with = UUIDSerializer::class)
-    val questionId: UUID,
+//    @Serializable(with = UUIDSerializer::class)
+//    val questionId: UUID,
     @Serializable(with = InstantSerializer::class)
     val createAtUTC: Instant,
     val isDeleted: Boolean,

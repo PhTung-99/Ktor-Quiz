@@ -1,6 +1,7 @@
 package dev.timpham.data.features.question.dao
 
 import dev.timpham.data.database.DatabaseFactory.dbQuery
+import dev.timpham.data.features.answers.entity.AnswerEntity
 import dev.timpham.data.features.question.entity.QuestionEntity
 import dev.timpham.data.features.question.mapper.resultRowToQuestion
 import dev.timpham.data.features.question.models.Question
@@ -18,8 +19,18 @@ class QuestionDAOImpl: QuestionDAO {
 
     override suspend fun getQuestionsByQuizId(quizId: UUID): List<Question> = dbQuery {
         QuestionEntity.select {
-            QuestionEntity.quizId eq quizId
+            QuestionEntity.quiz eq quizId
         }.mapNotNull(::resultRowToQuestion)
+    }
+
+    override suspend fun getQuestionWithAnswersById(id: UUID): Question? = dbQuery {
+        QuestionEntity.join(AnswerEntity, JoinType.LEFT, additionalConstraint = {
+            AnswerEntity.question eq QuestionEntity.id
+        })
+            .slice(QuestionEntity.content, AnswerEntity.content, AnswerEntity.isCorrect)
+            .select {
+            QuestionEntity.id eq id
+        }.singleOrNull()?.let(::resultRowToQuestion)
     }
 
     override suspend fun createQuestion(content: String, highlight: String?, score: Int, quizId: UUID): Question? = dbQuery {
@@ -27,7 +38,7 @@ class QuestionDAOImpl: QuestionDAO {
             it[QuestionEntity.content] = content
             it[QuestionEntity.highlight] = highlight
             it[QuestionEntity.score] = score
-            it[QuestionEntity.quizId] = quizId
+            it[quiz] = quizId
         }
         createStatement.resultedValues?.singleOrNull()?.let(::resultRowToQuestion)
     }
@@ -36,7 +47,7 @@ class QuestionDAOImpl: QuestionDAO {
         QuestionEntity.update({QuestionEntity.id eq id}) {
             it[QuestionEntity.content] = content
             it[QuestionEntity.highlight] = highlight
-            it[QuestionEntity.quizId] = quizId
+            it[quiz] = quizId
         }
         getQuestionById(id)
     }

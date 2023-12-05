@@ -9,7 +9,8 @@ fun resultRowToQuestion(row: ResultRow) = Question(
     content = row[QuestionEntity.content],
     highlight = row[QuestionEntity.highlight],
     score = row[QuestionEntity.score],
-    quizId = row[QuestionEntity.quizId],
+    quizId = row[QuestionEntity.quiz].value,
+    answers = listOf(),
     createAtUTC = row[QuestionEntity.createAtUTC],
     isDeleted = row[QuestionEntity.isDeleted],
 )

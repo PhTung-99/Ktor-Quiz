@@ -7,5 +7,5 @@ object QuestionEntity: BaseTable("question") {
     val content = varchar("name", 500)
     val highlight = varchar("highlight", 50).nullable()
     val score = integer("score")
-    val quizId = uuid("quiz_id").references(QuizEntity.id)
+    val quiz = reference("quiz", QuizEntity)
 }

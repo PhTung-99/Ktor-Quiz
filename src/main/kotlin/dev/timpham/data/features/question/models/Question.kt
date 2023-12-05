@@ -1,5 +1,6 @@
 package dev.timpham.data.features.question.models
 
+import dev.timpham.data.features.answers.models.Answer
 import dev.timpham.plugin.serializable.custom.InstantSerializer
 import dev.timpham.plugin.serializable.custom.UUIDSerializer
 import kotlinx.serialization.Serializable
@@ -15,6 +16,7 @@ data class Question(
     val score: Int,
     @Serializable(with = UUIDSerializer::class)
     val quizId: UUID,
+    val answers: List<Answer>?,
     @Serializable(with = InstantSerializer::class)
     val createAtUTC: Instant,
     val isDeleted: Boolean,

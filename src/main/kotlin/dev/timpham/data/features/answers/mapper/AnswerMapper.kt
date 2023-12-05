@@ -8,7 +8,7 @@ fun resultRowToAnswer(row: ResultRow) = Answer(
     id = row[AnswerEntity.id].value,
     content = row[AnswerEntity.content],
     isCorrect = row[AnswerEntity.isCorrect],
-    questionId = row[AnswerEntity.questionId],
+//    questionId = row[AnswerEntity.questionId],
     createAtUTC = row[AnswerEntity.createAtUTC],
     isDeleted = row[AnswerEntity.isDeleted],
 )
