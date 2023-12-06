@@ -15,6 +15,6 @@ data class Answer(
     @Serializable(with = UUIDSerializer::class)
     val questionId: UUID,
     @Serializable(with = InstantSerializer::class)
-    val createAtUTC: Instant,
+    val createdAtUTC: Instant,
     val isDeleted: Boolean,
 )

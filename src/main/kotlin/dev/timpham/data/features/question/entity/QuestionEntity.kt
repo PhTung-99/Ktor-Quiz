@@ -22,7 +22,6 @@ class QuestionEntity(id: EntityID<UUID>): BaseEntity(id, Questions) {
             highlight = highlight,
             score = score,
             quizId = quiz.id.value,
-            answers = listOf(),
             createdAtUTC = createdAtUTC,
             isDeleted = isDeleted,
         )

@@ -1,6 +1,8 @@
 package dev.timpham.data.features.question.dao
 
 import dev.timpham.data.database.DatabaseFactory.dbQuery
+import dev.timpham.data.features.answers.entity.AnswerEntity
+import dev.timpham.data.features.answers.entity.Answers
 import dev.timpham.data.features.question.entity.QuestionEntity
 import dev.timpham.data.features.question.entity.Questions
 import dev.timpham.data.features.question.models.Question
@@ -23,8 +25,15 @@ class QuestionDAOImpl: QuestionDAO {
         }
     }
 
-    override suspend fun getQuestionWithAnswersById(id: UUID): Question? {
-        TODO("Not yet implemented")
+    override suspend fun getQuestionWithAnswersById(id: UUID): Question? = dbQuery {
+        QuestionEntity.findById(id)?.let { question ->
+            val answers = AnswerEntity.find {
+                Answers.question eq question.id
+            }.map { answer ->
+                answer.toAnswer()
+            }
+            question.toQuestion().copy(answers = answers)
+        } ?: return@dbQuery null
     }
 
     override suspend fun createQuestion(content: String, highlight: String?, score: Int, quizId: UUID): Question = dbQuery {

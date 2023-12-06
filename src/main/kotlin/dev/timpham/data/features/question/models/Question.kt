@@ -12,11 +12,11 @@ data class Question(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
     val content: String,
-    val highlight: String?,
+    val highlight: String? = null,
     val score: Int,
     @Serializable(with = UUIDSerializer::class)
     val quizId: UUID,
-    val answers: List<Answer>?,
+    val answers: List<Answer>? = null,
     @Serializable(with = InstantSerializer::class)
     val createdAtUTC: Instant,
     val isDeleted: Boolean,
