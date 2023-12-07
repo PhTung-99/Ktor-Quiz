@@ -14,7 +14,7 @@ class QuizRepositoryImpl(
     override suspend fun createQuiz(quizRequest: QuizRequest): ResponseAlias<Quiz?> {
         return Pair(
             HttpStatusCode.Created,
-            BaseResponse(data = quizDao.createQuiz(quizRequest.name, quizRequest.description, quizRequest.isActive))
+            BaseResponse(data = quizDao.createQuiz(quizRequest.name, quizRequest.description, quizRequest.isActive, quizRequest.type,))
         )
     }
 
@@ -33,7 +33,7 @@ class QuizRepositoryImpl(
     override suspend fun updateQuiz(id: UUID, quizRequest: QuizRequest): ResponseAlias<Quiz?> {
         quizDao.getQuizById(id)
             ?: return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUIZ"))
-        return quizDao.updateQuiz(id, quizRequest.name, quizRequest.description, quizRequest.isActive,)?.let {
+        return quizDao.updateQuiz(id, quizRequest.name, quizRequest.description, quizRequest.isActive, quizRequest.type,)?.let {
             Pair(HttpStatusCode.OK, BaseResponse(data = it))
         } ?: kotlin.run {
             Pair(HttpStatusCode.OK, BaseResponse(messageCode = "UPDATE_QUIZ_FAILED"))
@@ -43,7 +43,7 @@ class QuizRepositoryImpl(
     override suspend fun deleteQuiz(id: UUID): ResponseAlias<Boolean> {
         quizDao.getQuizById(id)
             ?: return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUIZ"))
-        quizDao.deleteQuiz(id)
-        return Pair(HttpStatusCode.OK, BaseResponse(data = true))
+        val result = quizDao.deleteQuiz(id)
+        return Pair(HttpStatusCode.OK, BaseResponse(data = result))
     }
 }

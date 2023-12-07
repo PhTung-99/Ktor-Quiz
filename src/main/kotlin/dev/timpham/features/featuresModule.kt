@@ -4,6 +4,8 @@ import dev.timpham.features.answer.repository.AnswerRepository
 import dev.timpham.features.answer.repository.AnswerRepositoryImpl
 import dev.timpham.features.authentication.repository.AuthenticationRepository
 import dev.timpham.features.authentication.repository.AuthenticationRepositoryImpl
+import dev.timpham.features.gameplay.repository.GamePlayRepository
+import dev.timpham.features.gameplay.repository.GamePlayRepositoryImpl
 import dev.timpham.features.question.repository.QuestionRepository
 import dev.timpham.features.question.repository.QuestionRepositoryImpl
 import dev.timpham.features.quiz.repository.QuizRepository
@@ -18,4 +20,5 @@ val featuresModule = module {
     single<QuizRepository> { QuizRepositoryImpl(get()) }
     single<QuestionRepository> { QuestionRepositoryImpl(get(), get()) }
     single<AnswerRepository> { AnswerRepositoryImpl(get()) }
+    single<GamePlayRepository> { GamePlayRepositoryImpl(get(), get()) }
 }

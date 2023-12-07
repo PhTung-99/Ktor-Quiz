@@ -8,6 +8,7 @@ import java.util.UUID
 data class QuestionRequest(
     val content: String,
     val highlight: String? = null,
+    val isMultipleChoice: Boolean,
     val score: Int,
     @Serializable(with = UUIDSerializer::class)
     val quizId: UUID,
