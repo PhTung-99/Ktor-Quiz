@@ -7,7 +7,6 @@ import org.jetbrains.exposed.dao.id.EntityID
 import java.util.*
 
 class AnswerEntity(id: EntityID<UUID>): BaseEntity(id, Answers) {
-
     companion object : UUIDEntityClass<AnswerEntity>(Answers)
 
     var content by Answers.content

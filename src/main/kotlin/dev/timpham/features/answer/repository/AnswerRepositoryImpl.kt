@@ -27,11 +27,9 @@ class AnswerRepositoryImpl(
         }
     }
 
-    override suspend fun createAnswer(answerRequest: AnswerRequest): ResponseAlias<Answer?> {
-        answerDAO.createAnswer(answerRequest.content, answerRequest.isCorrect, answerRequest.questionId)?.let {
+    override suspend fun createAnswer(answerRequest: AnswerRequest): ResponseAlias<Answer> {
+        answerDAO.createAnswer(answerRequest.content, answerRequest.isCorrect, answerRequest.questionId).let {
             return Pair(HttpStatusCode.Created, BaseResponse(it))
-        } ?: run {
-            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "CREATE_ANSWER_FAILED"))
         }
     }
 
