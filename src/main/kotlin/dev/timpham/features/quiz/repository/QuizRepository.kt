@@ -2,6 +2,7 @@ package dev.timpham.features.quiz.repository
 
 import dev.timpham.common.alias.ResponseAlias
 import dev.timpham.data.features.quiz.models.Quiz
+import dev.timpham.features.quiz.models.QuizFullForm
 import dev.timpham.features.quiz.models.QuizRequest
 import java.util.*
 
@@ -17,4 +18,8 @@ interface QuizRepository {
     suspend fun updateQuiz(id: UUID, quizRequest: QuizRequest): ResponseAlias<Quiz?>
 
     suspend fun deleteQuiz(id: UUID): ResponseAlias<Boolean>
+
+    suspend fun playQuiz(id: UUID): ResponseAlias<Quiz?>
+
+    suspend fun createQuizFullForm(quizRequest: QuizFullForm): ResponseAlias<Quiz?>
 }

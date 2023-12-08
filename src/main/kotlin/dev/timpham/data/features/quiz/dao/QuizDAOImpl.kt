@@ -6,8 +6,7 @@ import dev.timpham.data.features.quiz.entity.Quizzes
 import dev.timpham.data.features.quiz.mapper.entityToQuiz
 import dev.timpham.data.features.quiz.models.Quiz
 import dev.timpham.data.features.quiz.models.QuizType
-
-import java.util.*
+import java.util.UUID
 
 class QuizDAOImpl: QuizDAO {
     override suspend fun createQuiz(name: String, description: String, isActive: Boolean, type: QuizType): Quiz = dbQuery {
@@ -32,11 +31,10 @@ class QuizDAOImpl: QuizDAO {
         }?.let(::entityToQuiz)
     }
 
-    override suspend fun deleteQuiz(id: UUID): Boolean = dbQuery {
-        QuizEntity.findById(id)?.let {
-            it.delete()
-            return@dbQuery it.isDeleted
-        } ?: false
+    override suspend fun deleteQuiz(id: UUID): Unit = dbQuery {
+        QuizEntity.findById(id)?.apply {
+            this.isDeleted = true
+        }
     }
 
     override suspend fun getQuizList(isActive: Boolean?): List<Quiz> = dbQuery {
@@ -44,10 +42,12 @@ class QuizDAOImpl: QuizDAO {
         if (isActive != null) {
             QuizEntity.find {
                 Quizzes.isActive eq isActive
+                Quizzes.isDeleted eq false
             }.map(::entityToQuiz)
         } else {
-            QuizEntity
-                .all()
+            QuizEntity.find {
+                Quizzes.isDeleted eq false
+            }
                 .sortedByDescending { Quizzes.createdAtUTC }
                 .map(::entityToQuiz)
         }

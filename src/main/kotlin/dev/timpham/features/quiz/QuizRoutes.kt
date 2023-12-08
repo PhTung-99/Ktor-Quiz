@@ -1,6 +1,7 @@
 package dev.timpham.features.quiz
 
 import dev.timpham.authentication.JWTUtils
+import dev.timpham.features.quiz.models.QuizFullForm
 import dev.timpham.features.quiz.models.QuizRequest
 import dev.timpham.features.quiz.repository.QuizRepository
 import io.ktor.server.application.*
@@ -45,6 +46,18 @@ fun Route.quizRoutes() {
             delete("{id}") {
                 val id = UUID.fromString(call.parameters["id"])
                 val result = quizRepository.deleteQuiz(id)
+                call.respond(result.first, result.second)
+            }
+
+            get("play/{id}") {
+                val id = UUID.fromString(call.parameters["id"])
+                val result = quizRepository.playQuiz(id)
+                call.respond(result.first, result.second)
+            }
+
+            post("create-quiz-form") {
+                val request = call.receive<QuizFullForm>()
+                val result = quizRepository.createQuizFullForm(request)
                 call.respond(result.first, result.second)
             }
         }

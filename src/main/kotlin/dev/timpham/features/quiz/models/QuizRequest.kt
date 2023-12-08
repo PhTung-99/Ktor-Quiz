@@ -10,3 +10,27 @@ data class QuizRequest(
     val type: QuizType,
     val isActive: Boolean,
 )
+
+@Serializable
+data class QuizFullForm(
+    val name: String,
+    val description: String,
+    val type: QuizType,
+    val isActive: Boolean,
+    val questions: List<QuestionFullForm>,
+)
+
+@Serializable
+data class QuestionFullForm(
+    val content: String,
+    val highlight: String? = null,
+    val isMultipleChoice: Boolean,
+    val score: Int,
+    val answers: List<AnswerFullForm>,
+)
+
+@Serializable
+data class AnswerFullForm(
+    val content: String,
+    val isCorrect: Boolean,
+)

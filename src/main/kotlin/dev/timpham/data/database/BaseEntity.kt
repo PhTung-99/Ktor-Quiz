@@ -5,6 +5,6 @@ import org.jetbrains.exposed.dao.id.EntityID
 import java.util.UUID
 
 abstract class BaseEntity(id: EntityID<UUID>, table: BaseTable): UUIDEntity(id) {
-    val createdAtUTC by table.createdAtUTC
-    val isDeleted by table.isDeleted
+    var createdAtUTC by table.createdAtUTC
+    var isDeleted by table.isDeleted
 }

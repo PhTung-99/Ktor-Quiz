@@ -14,5 +14,8 @@ fun Application.validationConfig() {
         exception<Throwable> { call, cause ->
             call.respond(HttpStatusCode.InternalServerError, mapOf("exception" to cause.message))
         }
+        exception<IllegalArgumentException> { call, _ ->
+            call.respond(HttpStatusCode.BadRequest, mapOf("messageCode" to "INVALID_UUID"))
+        }
     }
 }

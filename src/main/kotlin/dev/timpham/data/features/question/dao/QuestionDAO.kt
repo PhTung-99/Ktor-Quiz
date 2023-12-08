@@ -7,7 +7,7 @@ interface QuestionDAO {
     suspend fun getQuestionById(id: UUID): Question?
     suspend fun getQuestionsByQuizId(quizId: UUID): List<Question>
     suspend fun getQuestionWithAnswersById(id: UUID): Question?
-    suspend fun createQuestion(content: String, highlight: String?, isMultipleChoice: Boolean, score: Int, quizId: UUID): Question?
+    suspend fun createQuestion(content: String, highlight: String?, isMultipleChoice: Boolean, score: Int, quizId: UUID): Question
     suspend fun updateQuestion(id: UUID, content: String, highlight: String?, isMultipleChoice: Boolean, score: Int, quizId: UUID): Question?
     suspend fun deleteQuestion(id: UUID): Boolean
 }
