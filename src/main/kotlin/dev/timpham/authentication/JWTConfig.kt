@@ -2,13 +2,18 @@ package dev.timpham.authentication
 
 import dev.timpham.common.constants.Expressions
 import dev.timpham.features.authentication.constants.AuthenticationMessageCode
+import dev.timpham.features.user.repository.UserRepository
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
+import org.koin.ktor.ext.inject
+import java.util.*
 
 fun Application.configAuthentication() {
+
+    val userRepository: UserRepository by inject()
 
     install(Authentication) {
         jwt(JWTUtils.CONFIGURATIONS_KEY) {
@@ -19,7 +24,10 @@ fun Application.configAuthentication() {
                 val userId = jwtCredential.payload.getClaim("userId").asString()
                 if (userId != "") {
                     if (Expressions.UUID_REGEX.matcher(userId).matches()) {
-                        AppJWTPrincipal(jwtCredential.payload)
+                        val uuid = UUID.fromString(userId)
+                        userRepository.getUserInfo(uuid).second.data?.let {
+                            AppJWTPrincipal(jwtCredential.payload, it)
+                        }
                     }
                     else {
                         null

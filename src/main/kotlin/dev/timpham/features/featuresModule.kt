@@ -8,6 +8,8 @@ import dev.timpham.features.question.repository.QuestionRepository
 import dev.timpham.features.question.repository.QuestionRepositoryImpl
 import dev.timpham.features.quiz.repository.QuizRepository
 import dev.timpham.features.quiz.repository.QuizRepositoryImpl
+import dev.timpham.features.submission.repository.SubmissionRepository
+import dev.timpham.features.submission.repository.SubmissionRepositoryImpl
 import dev.timpham.features.user.repository.UserRepository
 import dev.timpham.features.user.repository.UserRepositoryImpl
 import org.koin.dsl.module
@@ -18,4 +20,5 @@ val featuresModule = module {
     single<QuizRepository> { QuizRepositoryImpl(get(),get(), get()) }
     single<QuestionRepository> { QuestionRepositoryImpl(get(), get()) }
     single<AnswerRepository> { AnswerRepositoryImpl(get()) }
+    single<SubmissionRepository> { SubmissionRepositoryImpl(get(), get()) }
 }

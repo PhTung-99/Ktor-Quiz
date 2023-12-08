@@ -4,6 +4,7 @@ import dev.timpham.features.answer.answerRoutes
 import dev.timpham.features.authentication.authenticationRoute
 import dev.timpham.features.question.questionRoutes
 import dev.timpham.features.quiz.quizRoutes
+import dev.timpham.features.submission.submissionRoute
 import dev.timpham.utils.errorutils.clientErrorRoutes
 import dev.timpham.utils.errorutils.serverErrorRoutes
 import dev.timpham.features.user.userRoutes
@@ -23,6 +24,7 @@ fun Application.configureRouting() {
         quizRoutes()
         questionRoutes()
         answerRoutes()
+        submissionRoute()
         healthRoute()
         authenticationRoute()
     }

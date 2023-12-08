@@ -7,7 +7,6 @@ import dev.timpham.data.features.user.models.User
 import dev.timpham.data.features.user.models.UserToken
 import org.jetbrains.exposed.sql.ResultRow
 
-
 fun entityToUserWithPassword(entity: UserEntity) = User(
     id = entity.id.value,
     name = entity.name,
