@@ -2,6 +2,7 @@ package dev.timpham.data.validation
 
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import kotlinx.serialization.SerializationException
@@ -16,6 +17,9 @@ fun Application.validationConfig() {
         }
         exception<IllegalArgumentException> { call, _ ->
             call.respond(HttpStatusCode.BadRequest, mapOf("messageCode" to "INVALID_UUID"))
+        }
+        exception<BadRequestException> { call, _ ->
+            call.respond(HttpStatusCode.BadRequest, mapOf("messageCode" to "INVALID_REQUEST"))
         }
     }
 }

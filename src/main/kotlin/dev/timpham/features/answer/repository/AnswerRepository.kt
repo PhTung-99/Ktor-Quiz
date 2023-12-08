@@ -2,7 +2,7 @@ package dev.timpham.features.answer.repository
 
 import dev.timpham.common.alias.ResponseAlias
 import dev.timpham.data.features.answers.models.Answer
-import dev.timpham.features.answer.models.AnswerRequest
+import dev.timpham.data.features.answers.models.AnswerRequest
 import java.util.UUID
 
 interface AnswerRepository {

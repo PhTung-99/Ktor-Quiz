@@ -6,8 +6,7 @@ import dev.timpham.data.features.quiz.models.Quiz
 import dev.timpham.common.models.BaseResponse
 import dev.timpham.data.features.answers.dao.AnswerDAO
 import dev.timpham.data.features.question.dao.QuestionDAO
-import dev.timpham.features.quiz.models.QuizFullForm
-import dev.timpham.features.quiz.models.QuizRequest
+import dev.timpham.data.features.quiz.models.request.QuizRequest
 import io.ktor.http.*
 import java.util.UUID
 
@@ -16,11 +15,24 @@ class QuizRepositoryImpl(
     private val questionDAO: QuestionDAO,
     private val answerDAO: AnswerDAO,
 ): QuizRepository {
-    override suspend fun createQuiz(quizRequest: QuizRequest): ResponseAlias<Quiz?> {
-        return Pair(
-            HttpStatusCode.Created,
-            BaseResponse(data = quizDao.createQuiz(quizRequest.name, quizRequest.description, quizRequest.isActive, quizRequest.type,))
-        )
+
+    override suspend fun createQuiz(quizRequest: QuizRequest): ResponseAlias<Quiz> {
+        if (!validateAnswer(quizRequest)) {
+            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "INVALID_ANSWER"))
+        }
+        quizDao.createQuiz(quizRequest).let { quiz ->
+            val questions = quizRequest.questions?.map { questionRequest ->
+                questionDAO.createQuestion(
+                    questionRequest.copy(quizId = quiz.id)
+                ).let { question ->
+                    val answer = questionRequest.answers?.map { answerRequest ->
+                        answerDAO.createAnswer(answerRequest.copy(questionId = question.id))
+                    }
+                    question.copy(answers = answer)
+                }
+            }
+            return Pair(HttpStatusCode.Created, BaseResponse(data =  quiz.copy(questions = questions)))
+        }
     }
 
     override suspend fun getQuizById(id: UUID): ResponseAlias<Quiz?> {
@@ -38,7 +50,7 @@ class QuizRepositoryImpl(
     override suspend fun updateQuiz(id: UUID, quizRequest: QuizRequest): ResponseAlias<Quiz?> {
         quizDao.getQuizById(id)
             ?: return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUIZ"))
-        return quizDao.updateQuiz(id, quizRequest.name, quizRequest.description, quizRequest.isActive, quizRequest.type,)?.let {
+        return quizDao.updateQuiz(id, quizRequest)?.let {
             Pair(HttpStatusCode.OK, BaseResponse(data = it))
         } ?: kotlin.run {
             Pair(HttpStatusCode.OK, BaseResponse(messageCode = "UPDATE_QUIZ_FAILED"))
@@ -64,40 +76,20 @@ class QuizRepositoryImpl(
         }
     }
 
-    override suspend fun createQuizFullForm(quizRequest: QuizFullForm): ResponseAlias<Quiz?> {
-        if (!validateAnswer(quizRequest)) {
-            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "INVALID_ANSWER"))
-        }
-        quizDao.createQuiz(quizRequest.name, quizRequest.description, quizRequest.isActive, quizRequest.type).let { quiz ->
-            val questions = quizRequest.questions.map { questionRequest ->
-                questionDAO.createQuestion(
-                    content = questionRequest.content,
-                    highlight = questionRequest.highlight,
-                    isMultipleChoice = questionRequest.isMultipleChoice,
-                    score = questionRequest.score,
-                    quizId = quiz.id,
-                ).let { question ->
-                    val answer = questionRequest.answers.map { answerRequest ->
-                        answerDAO.createAnswer(answerRequest.content, answerRequest.isCorrect, question.id)
-                    }
-                    question.copy(answers = answer)
-                }
-            }
-            return Pair(HttpStatusCode.Created, BaseResponse(data =  quiz.copy(questions = questions)))
-        }
-    }
 
-    private fun validateAnswer(quiz: QuizFullForm): Boolean {
+    private fun validateAnswer(quiz: QuizRequest): Boolean {
         var isValidate = true
-        quiz.questions.forEach { question ->
-            if (question.isMultipleChoice) {
-                if (question.answers.filter { it.isCorrect }.size < 2) {
-                    isValidate = false
+        quiz.questions?.forEach { question ->
+            question.answers?.let {
+                if (question.isMultipleChoice ) {
+                    if (question.answers.filter { it.isCorrect }.size < 2) {
+                        isValidate = false
+                    }
                 }
-            }
-            else {
-                if (question.answers.filter { it.isCorrect }.size != 1) {
-                    isValidate = false
+                else {
+                    if (question.answers.filter { it.isCorrect }.size != 1) {
+                        isValidate = false
+                    }
                 }
             }
         }

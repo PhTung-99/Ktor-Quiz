@@ -3,8 +3,8 @@ package dev.timpham.data.database
 import dev.timpham.data.features.answers.entity.Answers
 import dev.timpham.data.features.question.entity.Questions
 import dev.timpham.data.features.quiz.entity.Quizzes
-import dev.timpham.data.features.user.entity.UserTable
-import dev.timpham.data.features.user.entity.UserTokenTable
+import dev.timpham.data.features.user.entity.Users
+import dev.timpham.data.features.user.entity.UserTokens
 import dev.timpham.property.AppProperties
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -25,8 +25,8 @@ object DatabaseFactory {
             val database = Database.connect(jdbcURL, driverClassName, user, password)
             database.connector() // Attempt to connect
             transaction(database) {
-                SchemaUtils.create(UserTable)
-                SchemaUtils.create(UserTokenTable)
+                SchemaUtils.create(Users)
+                SchemaUtils.create(UserTokens)
                 SchemaUtils.create(Quizzes)
                 SchemaUtils.create(Questions)
                 SchemaUtils.create(Answers)

@@ -5,16 +5,16 @@ import dev.timpham.data.features.quiz.entity.QuizEntity
 import dev.timpham.data.features.quiz.entity.Quizzes
 import dev.timpham.data.features.quiz.mapper.entityToQuiz
 import dev.timpham.data.features.quiz.models.Quiz
-import dev.timpham.data.features.quiz.models.QuizType
+import dev.timpham.data.features.quiz.models.request.QuizRequest
 import java.util.UUID
 
 class QuizDAOImpl: QuizDAO {
-    override suspend fun createQuiz(name: String, description: String, isActive: Boolean, type: QuizType): Quiz = dbQuery {
+    override suspend fun createQuiz(quizRequest: QuizRequest): Quiz = dbQuery {
         QuizEntity.new {
-            this.name = name
-            this.description = description
-            this.isActive = isActive
-            this.type = type
+            name = quizRequest.name
+            description = quizRequest.description
+            isActive = quizRequest.isActive
+            type = quizRequest.type
         }.let(::entityToQuiz)
     }
 
@@ -22,12 +22,12 @@ class QuizDAOImpl: QuizDAO {
         QuizEntity.findById(id)?.let(::entityToQuiz)
     }
 
-    override suspend fun updateQuiz(id: UUID, name: String, description: String, isActive: Boolean, type: QuizType): Quiz? = dbQuery {
+    override suspend fun updateQuiz(id: UUID, quizRequest: QuizRequest): Quiz? = dbQuery {
         QuizEntity.findById(id)?.apply {
-            this.name = name
-            this.description = description
-            this.isActive = isActive
-            this.type = type
+            name = quizRequest.name
+            description = quizRequest.description
+            isActive = quizRequest.isActive
+            type = quizRequest.type
         }?.let(::entityToQuiz)
     }
 

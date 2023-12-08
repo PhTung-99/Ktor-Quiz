@@ -5,6 +5,7 @@ import dev.timpham.data.features.answers.entity.AnswerEntity
 import dev.timpham.data.features.answers.entity.Answers
 import dev.timpham.data.features.answers.mapper.entityToAnswer
 import dev.timpham.data.features.answers.models.Answer
+import dev.timpham.data.features.answers.models.AnswerRequest
 import dev.timpham.data.features.question.entity.QuestionEntity
 import java.util.UUID
 
@@ -19,20 +20,20 @@ class AnswerDAOImpl: AnswerDAO {
         }.map(::entityToAnswer)
     }
 
-    override suspend fun createAnswer(content: String, isCorrect: Boolean, questionId: UUID): Answer = dbQuery {
+    override suspend fun createAnswer(answerRequest: AnswerRequest): Answer = dbQuery {
         AnswerEntity.new {
-            this.content = content
-            this.isCorrect = isCorrect
-            this.question = QuestionEntity[questionId]
+            content = answerRequest.content
+            isCorrect = answerRequest.isCorrect
+            question = QuestionEntity[answerRequest.questionId!!]
         }.let(::entityToAnswer)
     }
 
-    override suspend fun updateAnswer(id: UUID, content: String, isCorrect: Boolean, questionId: UUID): Answer? = dbQuery {
+    override suspend fun updateAnswer(id: UUID, answerRequest: AnswerRequest): Answer? = dbQuery {
         val answer = AnswerEntity.findById(id)
         answer?.apply {
-            this.content = content
-            this.isCorrect = isCorrect
-            this.question = QuestionEntity[questionId]
+            content = answerRequest.content
+            isCorrect = answerRequest.isCorrect
+            question = QuestionEntity[answerRequest.questionId!!]
         }?.let(::entityToAnswer)
     }
 

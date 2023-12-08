@@ -1,5 +1,6 @@
-package dev.timpham.features.question.models
+package dev.timpham.data.features.question.models
 
+import dev.timpham.data.features.answers.models.AnswerRequest
 import dev.timpham.plugin.serializable.custom.UUIDSerializer
 import kotlinx.serialization.Serializable
 import java.util.*
@@ -11,5 +12,6 @@ data class QuestionRequest(
     val isMultipleChoice: Boolean,
     val score: Int,
     @Serializable(with = UUIDSerializer::class)
-    val quizId: UUID,
+    val quizId: UUID? = null,
+    val answers: List<AnswerRequest>? = null,
 )

@@ -1,4 +1,4 @@
-package dev.timpham.features.answer.models
+package dev.timpham.data.features.answers.models
 
 import dev.timpham.plugin.serializable.custom.UUIDSerializer
 import kotlinx.serialization.Serializable
@@ -9,5 +9,5 @@ data class AnswerRequest(
     val content: String,
     val isCorrect: Boolean,
     @Serializable(with = UUIDSerializer::class)
-    val questionId: UUID,
+    val questionId: UUID? = null,
 )

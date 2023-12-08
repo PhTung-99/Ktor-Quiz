@@ -8,6 +8,7 @@ import dev.timpham.data.features.question.entity.QuestionEntity
 import dev.timpham.data.features.question.entity.Questions
 import dev.timpham.data.features.question.mapper.entityToQuestion
 import dev.timpham.data.features.question.models.Question
+import dev.timpham.data.features.question.models.QuestionRequest
 import dev.timpham.data.features.quiz.entity.QuizEntity
 import java.util.*
 
@@ -38,23 +39,23 @@ class QuestionDAOImpl: QuestionDAO {
         }
     }
 
-    override suspend fun createQuestion(content: String, highlight: String?, isMultipleChoice: Boolean, score: Int, quizId: UUID): Question = dbQuery {
+    override suspend fun createQuestion(questionRequest: QuestionRequest): Question = dbQuery {
         QuestionEntity.new {
-            this.content = content
-            this.highlight = highlight
-            this.isMultipleChoice = isMultipleChoice
-            this.score = score
-            this.quiz = QuizEntity[quizId]
+            content = questionRequest.content
+            highlight = questionRequest.highlight
+            isMultipleChoice = questionRequest.isMultipleChoice
+            score = questionRequest.score
+            quiz = QuizEntity[questionRequest.quizId!!]
         }.let(::entityToQuestion)
     }
 
-    override suspend fun updateQuestion(id: UUID, content: String, highlight: String?, isMultipleChoice: Boolean, score: Int, quizId: UUID): Question? = dbQuery {
+    override suspend fun updateQuestion(id: UUID, questionRequest: QuestionRequest): Question? = dbQuery {
         QuestionEntity.findById(id)?.apply {
-            this.content = content
-            this.highlight = highlight
-            this.isMultipleChoice = isMultipleChoice
-            this.score = score
-            this.quiz = QuizEntity[quizId]
+            content = questionRequest.content
+            highlight = questionRequest.highlight
+            isMultipleChoice = questionRequest.isMultipleChoice
+            score = questionRequest.score
+            quiz = QuizEntity[questionRequest.quizId!!]
         }?.let(::entityToQuestion)
     }
 

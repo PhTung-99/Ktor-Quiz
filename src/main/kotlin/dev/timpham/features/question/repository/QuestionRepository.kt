@@ -2,7 +2,7 @@ package dev.timpham.features.question.repository
 
 import dev.timpham.common.alias.ResponseAlias
 import dev.timpham.data.features.question.models.Question
-import dev.timpham.features.question.models.QuestionRequest
+import dev.timpham.data.features.question.models.QuestionRequest
 import java.util.*
 
 interface QuestionRepository {

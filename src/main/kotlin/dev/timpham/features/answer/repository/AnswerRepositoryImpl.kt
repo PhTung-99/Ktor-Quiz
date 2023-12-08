@@ -4,7 +4,7 @@ import dev.timpham.common.alias.ResponseAlias
 import dev.timpham.common.models.BaseResponse
 import dev.timpham.data.features.answers.dao.AnswerDAO
 import dev.timpham.data.features.answers.models.Answer
-import dev.timpham.features.answer.models.AnswerRequest
+import dev.timpham.data.features.answers.models.AnswerRequest
 import io.ktor.http.*
 import java.util.*
 
@@ -28,8 +28,11 @@ class AnswerRepositoryImpl(
     }
 
     override suspend fun createAnswer(answerRequest: AnswerRequest): ResponseAlias<Answer> {
-        answerDAO.createAnswer(answerRequest.content, answerRequest.isCorrect, answerRequest.questionId).let {
-            return Pair(HttpStatusCode.Created, BaseResponse(it))
+        if (answerRequest.questionId == null) {
+            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUESTION"))
+        }
+        answerDAO.createAnswer(answerRequest).let { answer ->
+            return Pair(HttpStatusCode.Created, BaseResponse(answer))
         }
     }
 
@@ -37,7 +40,10 @@ class AnswerRepositoryImpl(
         id: UUID,
         answerRequest: AnswerRequest,
     ): ResponseAlias<Answer?> {
-        answerDAO.updateAnswer(id, answerRequest.content, answerRequest.isCorrect, answerRequest.questionId)?.let {
+        if (answerRequest.questionId == null) {
+            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUESTION"))
+        }
+        answerDAO.updateAnswer(id, answerRequest)?.let {
             return Pair(HttpStatusCode.OK, BaseResponse(it))
         } ?: run {
             return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "UPDATE_ANSWER_FAILED"))
