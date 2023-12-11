@@ -1,6 +1,6 @@
 package dev.timpham.data.features.answers.models
 
-import dev.timpham.plugin.serializable.serializer.UUIDSerializer
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
@@ -8,6 +8,6 @@ import java.util.UUID
 data class AnswerRequest(
     val content: String,
     val isCorrect: Boolean,
-    @Serializable(with = UUIDSerializer::class)
+    @Contextual
     val questionId: UUID? = null,
 )

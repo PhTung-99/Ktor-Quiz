@@ -10,7 +10,6 @@ ktor:
             - classes
 
 local:
-    host: "http://localhost:8080"
     postgres:
         driver: "org.postgresql.Driver"
         url: "jdbc:postgresql://127.0.0.1:5432/ktor_quiz"
@@ -31,7 +30,6 @@ local:
         port: "6379"
 
 dev:
-    host: "http://127.0.0.1:8080"
     postgres:
         driver: "org.postgresql.Driver"
         url: "jdbc:postgresql://postgres_db:5432/ktor_quiz"

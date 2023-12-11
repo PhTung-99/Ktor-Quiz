@@ -18,13 +18,13 @@ fun main(args: Array<String>) {
 
 fun Application.module() {
     AppProperties.init(environment.config)
+    configureKoin()
     fileInit()
     DatabaseFactory.init()
     RedisClient.init()
     validationConfig()
     configureSerializable()
     configureLogging()
-    configureKoin()
     configAuthentication()
     configureRouting()
 }

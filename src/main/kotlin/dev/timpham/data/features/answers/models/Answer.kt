@@ -1,20 +1,19 @@
 package dev.timpham.data.features.answers.models
 
-import dev.timpham.plugin.serializable.serializer.InstantSerializer
-import dev.timpham.plugin.serializable.serializer.UUIDSerializer
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.Instant
 import java.util.UUID
 
 @Serializable
 data class Answer(
-    @Serializable(with = UUIDSerializer::class)
+    @Contextual
     val id: UUID,
     val content: String,
     val isCorrect: Boolean,
-    @Serializable(with = UUIDSerializer::class)
+    @Contextual
     val questionId: UUID,
-    @Serializable(with = InstantSerializer::class)
+    @Contextual
     val createdAtUTC: Instant,
     val isDeleted: Boolean,
 )

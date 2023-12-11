@@ -1,19 +1,19 @@
 package dev.timpham.data.features.user.models
 
-import dev.timpham.plugin.serializable.serializer.*
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.Instant
 import java.util.*
 
 @Serializable
 data class User(
-    @Serializable(with = UUIDSerializer::class)
+    @Contextual
     val id: UUID,
     val name: String,
     val email: String,
     var password: String? = null,
     val avatar: String? = null,
-    @Serializable(with = InstantSerializer::class)
+    @Contextual
     val createAtUTC: Instant,
     val isDeleted: Boolean,
 )

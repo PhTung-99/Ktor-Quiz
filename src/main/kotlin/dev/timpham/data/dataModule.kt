@@ -6,8 +6,8 @@ import dev.timpham.data.features.question.dao.QuestionDAO
 import dev.timpham.data.features.question.dao.QuestionDAOImpl
 import dev.timpham.data.features.quiz.dao.QuizDAO
 import dev.timpham.data.features.quiz.dao.QuizDAOImpl
-import dev.timpham.data.features.submission.dao.SubmissionDAO
-import dev.timpham.data.features.submission.dao.SubmissionDAOImpl
+import dev.timpham.data.features.submission.dao.UserAnswerHistoryDAO
+import dev.timpham.data.features.submission.dao.UserAnswerHistoryDAOImpl
 import dev.timpham.data.features.user.dao.UserDAO
 import dev.timpham.data.features.user.dao.UserDAOImpl
 import dev.timpham.data.features.user.dao.UserTokenDAO
@@ -21,5 +21,5 @@ val dataModule = module {
     single<QuizDAO> { QuizDAOImpl() }
     single<QuestionDAO> { QuestionDAOImpl() }
     single<AnswerDAO> { AnswerDAOImpl() }
-    single<SubmissionDAO> { SubmissionDAOImpl() }
+    single<UserAnswerHistoryDAO> { UserAnswerHistoryDAOImpl() }
 }

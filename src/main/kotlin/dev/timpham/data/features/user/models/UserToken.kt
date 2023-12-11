@@ -1,18 +1,17 @@
 package dev.timpham.data.features.user.models
 
-import dev.timpham.plugin.serializable.serializer.*
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.Instant
-
-import java.util.UUID
+import java.util.*
 
 @Serializable
 data class UserToken(
-    @Serializable(with = UUIDSerializer::class)
+    @Contextual
     val id: UUID,
     val refreshToken: String,
-    @Serializable(with = UUIDSerializer::class)
+    @Contextual
     val userId: UUID,
-    @Serializable(with = InstantSerializer::class)
+    @Contextual
     val createAtUTC: Instant,
 )

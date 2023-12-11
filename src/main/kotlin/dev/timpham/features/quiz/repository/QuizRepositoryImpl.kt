@@ -7,13 +7,17 @@ import dev.timpham.common.models.BaseResponse
 import dev.timpham.data.features.answers.dao.AnswerDAO
 import dev.timpham.data.features.question.dao.QuestionDAO
 import dev.timpham.data.features.quiz.models.request.QuizRequest
+import dev.timpham.data.features.submission.dao.UserAnswerHistoryDAO
+import dev.timpham.data.features.submission.models.SubmitRequest
 import io.ktor.http.*
+import java.time.Instant
 import java.util.UUID
 
 class QuizRepositoryImpl(
     private val quizDao: QuizDAO,
     private val questionDAO: QuestionDAO,
     private val answerDAO: AnswerDAO,
+    private val userAnswerHistoryDAO: UserAnswerHistoryDAO
 ): QuizRepository {
 
     override suspend fun createQuiz(quizRequest: QuizRequest): ResponseAlias<Quiz> {
@@ -94,5 +98,27 @@ class QuizRepositoryImpl(
             }
         }
         return isValidate
+    }
+
+    override suspend fun submitAnswer(quizId: UUID, userId: UUID, submitRequest: SubmitRequest): ResponseAlias<Any> {
+        var score = 0
+        submitRequest.userSubmits.forEach { userAnswer ->
+            questionDAO.getQuestionWithAnswersById(userAnswer.questionId)?.let { question ->
+                question.answers?.filter { answer -> answer.isCorrect }?.let { correctAnswers ->
+                    if (correctAnswers.map { it.id }.containsAll(userAnswer.answerIds)) {
+                        score += question.score
+                    }
+                }
+            }
+        }
+        userAnswerHistoryDAO.createSubmission(
+            userId,
+            quizId,
+            score,
+            Instant.now(),
+            Instant.now(),
+        ).let {
+            return Pair(HttpStatusCode.OK, BaseResponse(data = it))
+        }
     }
 }

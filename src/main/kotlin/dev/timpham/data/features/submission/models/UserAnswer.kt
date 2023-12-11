@@ -6,17 +6,14 @@ import java.time.Instant
 import java.util.UUID
 
 @Serializable
-data class SubmitRequest(
-    val userSubmits: List<UserSubmit>,
+data class UserAnswer(
+    @Contextual
+    val id: UUID,
+    @Contextual
+    val quizId: UUID,
+    val score: Int,
     @Contextual
     val startTime: Instant,
     @Contextual
     val endTime: Instant,
-)
-
-@Serializable
-data class UserSubmit(
-    @Contextual
-    val questionId: UUID,
-    val answerIds: List<@Contextual UUID>,
 )
