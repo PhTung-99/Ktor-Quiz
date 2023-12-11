@@ -7,5 +7,5 @@ import io.ktor.server.auth.jwt.*
 
 class AppJWTPrincipal(
     payload: Payload,
-    user: User
+    val user: User
 ) : Principal, JWTPayloadHolder(payload)

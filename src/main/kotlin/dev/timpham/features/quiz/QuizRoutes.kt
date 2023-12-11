@@ -1,8 +1,11 @@
 package dev.timpham.features.quiz
 
+import dev.timpham.authentication.AppJWTPrincipal
 import dev.timpham.authentication.JWTUtils
 import dev.timpham.data.features.quiz.models.request.QuizRequest
+import dev.timpham.data.features.submission.models.SubmitRequest
 import dev.timpham.features.quiz.repository.QuizRepository
+import dev.timpham.features.submission.repository.SubmissionRepository
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
@@ -13,6 +16,7 @@ import java.util.*
 
 fun Route.quizRoutes() {
     val quizRepository: QuizRepository by inject()
+    val submissionRepository: SubmissionRepository by inject()
 
     route("/quiz") {
 
@@ -51,6 +55,13 @@ fun Route.quizRoutes() {
             get("play/{id}") {
                 val id = UUID.fromString(call.parameters["id"])
                 val result = quizRepository.playQuiz(id)
+                call.respond(result.first, result.second)
+            }
+
+            post("submit") {
+                val request = call.receive<SubmitRequest>()
+                val principal = call.principal<AppJWTPrincipal>()
+                val result = submissionRepository.submitAnswer(principal!!.user.id ,request)
                 call.respond(result.first, result.second)
             }
         }

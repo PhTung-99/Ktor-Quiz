@@ -1,21 +1,26 @@
 package dev.timpham.data.features.submission.dao
 
-import dev.timpham.data.features.question.entity.QuestionEntity
+import dev.timpham.data.features.quiz.entity.QuizEntity
 import dev.timpham.data.features.submission.entity.SubmissionEntity
 import dev.timpham.data.features.submission.entity.Submissions
 import dev.timpham.data.features.user.entity.UserEntity
-import java.util.*
+import java.time.Instant
+import java.util.UUID
 
 class SubmissionDAOImpl: SubmissionDAO {
     override suspend fun createSubmission(
         userId: UUID,
-        questionId: UUID,
-        score: Int
+        quizId: UUID,
+        score: Int,
+        startTime: Instant,
+        endTime: Instant,
     ) {
         SubmissionEntity.new {
             user = UserEntity[userId]
-            question = QuestionEntity[questionId]
+            quiz = QuizEntity[quizId]
             this.score = score
+            this.startTime = startTime
+            this.endTime = endTime
         }
     }
 

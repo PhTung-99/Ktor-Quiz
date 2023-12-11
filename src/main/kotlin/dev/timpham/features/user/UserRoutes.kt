@@ -18,7 +18,7 @@ fun Route.userRoutes() {
         authenticate(JWTUtils.CONFIGURATIONS_KEY) {
             get("info") {
                 val principal = call.principal<AppJWTPrincipal>()
-                val response = userRepository.getUserInfo(principal!!.userId)
+                val response = userRepository.getUserInfo(principal!!.user.id)
                 call.respond(response.first, response.second)
             }
         }

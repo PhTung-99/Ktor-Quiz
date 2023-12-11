@@ -25,8 +25,8 @@ fun Application.configAuthentication() {
                 if (userId != "") {
                     if (Expressions.UUID_REGEX.matcher(userId).matches()) {
                         val uuid = UUID.fromString(userId)
-                        userRepository.getUserInfo(uuid).second.data?.let {
-                            AppJWTPrincipal(jwtCredential.payload, it)
+                        userRepository.getUserInfo(uuid).second.data?.let { user ->
+                            AppJWTPrincipal(jwtCredential.payload, user)
                         }
                     }
                     else {

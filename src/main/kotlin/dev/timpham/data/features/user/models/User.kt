@@ -1,6 +1,6 @@
 package dev.timpham.data.features.user.models
 
-import dev.timpham.plugin.serializable.custom.*
+import dev.timpham.plugin.serializable.serializer.*
 import kotlinx.serialization.Serializable
 import java.time.Instant
 import java.util.*

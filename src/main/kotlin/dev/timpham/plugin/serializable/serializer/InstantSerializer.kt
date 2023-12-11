@@ -1,4 +1,4 @@
-package dev.timpham.plugin.serializable.custom
+package dev.timpham.plugin.serializable.serializer
 
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.KSerializer

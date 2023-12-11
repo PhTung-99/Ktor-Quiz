@@ -1,8 +1,8 @@
 package dev.timpham.data.features.question.models
 
 import dev.timpham.data.features.answers.models.Answer
-import dev.timpham.plugin.serializable.custom.InstantSerializer
-import dev.timpham.plugin.serializable.custom.UUIDSerializer
+import dev.timpham.plugin.serializable.serializer.InstantSerializer
+import dev.timpham.plugin.serializable.serializer.UUIDSerializer
 import kotlinx.serialization.Serializable
 import java.time.Instant
 import java.util.UUID

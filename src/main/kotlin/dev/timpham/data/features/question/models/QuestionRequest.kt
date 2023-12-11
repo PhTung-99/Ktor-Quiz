@@ -1,7 +1,7 @@
 package dev.timpham.data.features.question.models
 
 import dev.timpham.data.features.answers.models.AnswerRequest
-import dev.timpham.plugin.serializable.custom.UUIDSerializer
+import dev.timpham.plugin.serializable.serializer.UUIDSerializer
 import kotlinx.serialization.Serializable
 import java.util.*
 

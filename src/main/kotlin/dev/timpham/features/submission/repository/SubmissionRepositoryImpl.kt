@@ -22,7 +22,7 @@ class SubmissionRepositoryImpl(
                 }
             }
         }
-        submissionDAO.createSubmission(userId, submitRequest.quizId, score).let {
+        submissionDAO.createSubmission(userId, submitRequest.quizId, score, submitRequest.startTime, submitRequest.endTime).let {
             return Pair(HttpStatusCode.OK, BaseResponse(it))
         }
     }
