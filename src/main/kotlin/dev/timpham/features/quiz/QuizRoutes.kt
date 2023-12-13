@@ -3,8 +3,9 @@ package dev.timpham.features.quiz
 import dev.timpham.authentication.AppJWTPrincipal
 import dev.timpham.authentication.JWTUtils
 import dev.timpham.data.features.quiz.models.request.QuizRequest
-import dev.timpham.data.features.submission.models.SubmitRequest
+import dev.timpham.data.features.userAnswerHistory.models.SubmitRequest
 import dev.timpham.features.quiz.repository.QuizRepository
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
@@ -57,10 +58,33 @@ fun Route.quizRoutes() {
             }
 
             post("submit/{id}") {
+                try {
+                    val id = UUID.fromString(call.parameters["id"])
+                    val request = call.receive<SubmitRequest>()
+                    val principal = call.principal<AppJWTPrincipal>()
+                    val result = quizRepository.submitAnswer(id, principal!!.user.id ,request)
+                    call.respond(result.first, result.second)
+                }
+                catch (e: Exception) {
+                    call.respond(HttpStatusCode.BadRequest, e.message ?: "Bad Request")
+                }
+            }
+
+            get("leaderboard/{id}") {
+                try {
+                    val id = UUID.fromString(call.parameters["id"])
+                    val result = quizRepository.getLeaderboard(id)
+                    call.respond(result.first, result.second)
+                }
+                catch (e: Exception) {
+                    call.respond(HttpStatusCode.BadRequest, e.message ?: "Bad Request")
+                }
+            }
+
+            get("my-score/{id}") {
                 val id = UUID.fromString(call.parameters["id"])
-                val request = call.receive<SubmitRequest>()
                 val principal = call.principal<AppJWTPrincipal>()
-                val result = quizRepository.submitAnswer(id, principal!!.user.id ,request)
+                val result = quizRepository.getUserScore(id, principal!!.user.id)
                 call.respond(result.first, result.second)
             }
         }

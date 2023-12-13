@@ -1,4 +1,4 @@
-package dev.timpham.data.features.submission.models
+package dev.timpham.data.features.userAnswerHistory.models
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
@@ -7,7 +7,7 @@ import java.util.UUID
 
 @Serializable
 data class SubmitRequest(
-    val userSubmits: List<UserSubmit>,
+    val userAnswers: List<UserSubmit>,
     @Contextual
     val startTime: Instant,
     @Contextual

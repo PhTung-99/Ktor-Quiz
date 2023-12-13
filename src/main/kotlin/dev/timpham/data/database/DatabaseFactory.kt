@@ -3,6 +3,7 @@ package dev.timpham.data.database
 import dev.timpham.data.features.answers.entity.Answers
 import dev.timpham.data.features.question.entity.Questions
 import dev.timpham.data.features.quiz.entity.Quizzes
+import dev.timpham.data.features.userAnswerHistory.entity.UserAnswerHistories
 import dev.timpham.data.features.user.entity.Users
 import dev.timpham.data.features.user.entity.UserTokens
 import dev.timpham.property.AppProperties
@@ -30,6 +31,7 @@ object DatabaseFactory {
                 SchemaUtils.create(Quizzes)
                 SchemaUtils.create(Questions)
                 SchemaUtils.create(Answers)
+                SchemaUtils.create(UserAnswerHistories)
             }
             true
         } catch (e: Exception) {

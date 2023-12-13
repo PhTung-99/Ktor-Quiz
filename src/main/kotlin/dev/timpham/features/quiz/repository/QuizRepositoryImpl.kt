@@ -1,17 +1,17 @@
 package dev.timpham.features.quiz.repository
 
 import dev.timpham.common.alias.ResponseAlias
-import dev.timpham.data.features.quiz.dao.QuizDAO
-import dev.timpham.data.features.quiz.models.Quiz
 import dev.timpham.common.models.BaseResponse
 import dev.timpham.data.features.answers.dao.AnswerDAO
 import dev.timpham.data.features.question.dao.QuestionDAO
+import dev.timpham.data.features.quiz.dao.QuizDAO
+import dev.timpham.data.features.quiz.models.Quiz
 import dev.timpham.data.features.quiz.models.request.QuizRequest
-import dev.timpham.data.features.submission.dao.UserAnswerHistoryDAO
-import dev.timpham.data.features.submission.models.SubmitRequest
+import dev.timpham.data.features.userAnswerHistory.dao.UserAnswerHistoryDAO
+import dev.timpham.data.features.userAnswerHistory.models.SubmitRequest
+import dev.timpham.data.features.userAnswerHistory.models.UserAnswerHistory
 import io.ktor.http.*
-import java.time.Instant
-import java.util.UUID
+import java.util.*
 
 class QuizRepositoryImpl(
     private val quizDao: QuizDAO,
@@ -21,7 +21,7 @@ class QuizRepositoryImpl(
 ): QuizRepository {
 
     override suspend fun createQuiz(quizRequest: QuizRequest): ResponseAlias<Quiz> {
-        if (!validateAnswer(quizRequest)) {
+        if (!validateAnswerForm(quizRequest)) {
             return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "INVALID_ANSWER"))
         }
         quizDao.createQuiz(quizRequest).let { quiz ->
@@ -81,7 +81,7 @@ class QuizRepositoryImpl(
     }
 
 
-    private fun validateAnswer(quiz: QuizRequest): Boolean {
+    private fun validateAnswerForm(quiz: QuizRequest): Boolean {
         var isValidate = true
         quiz.questions?.forEach { question ->
             question.answers?.let {
@@ -100,9 +100,9 @@ class QuizRepositoryImpl(
         return isValidate
     }
 
-    override suspend fun submitAnswer(quizId: UUID, userId: UUID, submitRequest: SubmitRequest): ResponseAlias<Any> {
+    override suspend fun submitAnswer(quizId: UUID, userId: UUID, submitRequest: SubmitRequest): ResponseAlias<UserAnswerHistory?> {
         var score = 0
-        submitRequest.userSubmits.forEach { userAnswer ->
+        submitRequest.userAnswers.forEach { userAnswer ->
             questionDAO.getQuestionWithAnswersById(userAnswer.questionId)?.let { question ->
                 question.answers?.filter { answer -> answer.isCorrect }?.let { correctAnswers ->
                     if (correctAnswers.map { it.id }.containsAll(userAnswer.answerIds)) {
@@ -115,10 +115,22 @@ class QuizRepositoryImpl(
             userId,
             quizId,
             score,
-            Instant.now(),
-            Instant.now(),
+            submitRequest.startTime,
+            submitRequest.endTime,
         ).let {
             return Pair(HttpStatusCode.OK, BaseResponse(data = it))
+        }
+    }
+
+    override suspend fun getLeaderboard(quizId: UUID): ResponseAlias<List<UserAnswerHistory>> {
+        return Pair(HttpStatusCode.OK, BaseResponse(data = userAnswerHistoryDAO.getSortedUserHistory(quizId)))
+    }
+
+    override suspend fun getUserScore(quizId: UUID, userId: UUID): ResponseAlias<UserAnswerHistory?> {
+        userAnswerHistoryDAO.getUserHistory(userId, quizId)?.let {
+            return Pair(HttpStatusCode.OK, BaseResponse(data = it))
+        } ?: run {
+            return Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_USER_HISTORY"))
         }
     }
 }

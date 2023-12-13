@@ -3,7 +3,8 @@ package dev.timpham.features.quiz.repository
 import dev.timpham.common.alias.ResponseAlias
 import dev.timpham.data.features.quiz.models.Quiz
 import dev.timpham.data.features.quiz.models.request.QuizRequest
-import dev.timpham.data.features.submission.models.SubmitRequest
+import dev.timpham.data.features.userAnswerHistory.models.SubmitRequest
+import dev.timpham.data.features.userAnswerHistory.models.UserAnswerHistory
 import java.util.*
 
 interface QuizRepository {
@@ -20,6 +21,10 @@ interface QuizRepository {
 
     suspend fun playQuiz(id: UUID): ResponseAlias<Quiz?>
 
-    suspend fun submitAnswer(quizId: UUID, userId: UUID, submitRequest: SubmitRequest): ResponseAlias<Any>
+    suspend fun submitAnswer(quizId: UUID, userId: UUID, submitRequest: SubmitRequest): ResponseAlias<UserAnswerHistory?>
+
+    suspend fun getLeaderboard(quizId: UUID): ResponseAlias<List<UserAnswerHistory>>
+
+    suspend fun getUserScore(quizId: UUID, userId: UUID): ResponseAlias<UserAnswerHistory?>
 
 }
