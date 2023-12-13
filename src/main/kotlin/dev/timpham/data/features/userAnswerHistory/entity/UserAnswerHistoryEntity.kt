@@ -1,7 +1,7 @@
 package dev.timpham.data.features.userAnswerHistory.entity
 
 import dev.timpham.data.database.BaseEntity
-import dev.timpham.data.database.customexpression.TimeDifferenceExpression
+import dev.timpham.data.database.customexpression.DurationExpression
 import dev.timpham.data.features.quiz.entity.QuizEntity
 import dev.timpham.data.features.user.entity.UserEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
@@ -14,7 +14,7 @@ class UserAnswerHistoryEntity(id: EntityID<UUID>): BaseEntity(id, UserAnswerHist
     companion object : UUIDEntityClass<UserAnswerHistoryEntity>(UserAnswerHistories) {
         override fun searchQuery(op: Op<Boolean>): Query {
             return super.searchQuery(op).adjustSlice {
-                slice(columns + TimeDifferenceExpression(UserAnswerHistories.endTime, UserAnswerHistories.startTime))
+                slice(columns + DurationExpression(UserAnswerHistories.endTime, UserAnswerHistories.startTime))
             }
         }
     }

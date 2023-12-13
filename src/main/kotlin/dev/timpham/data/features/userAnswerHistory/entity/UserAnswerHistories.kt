@@ -1,7 +1,7 @@
 package dev.timpham.data.features.userAnswerHistory.entity
 
 import dev.timpham.data.database.BaseTable
-import dev.timpham.data.database.customexpression.TimeDifferenceExpression
+import dev.timpham.data.database.customexpression.DurationExpression
 import dev.timpham.data.database.datetypes.timestampWithTimeZone
 import dev.timpham.data.features.quiz.entity.Quizzes
 import dev.timpham.data.features.user.entity.Users
@@ -15,5 +15,5 @@ object UserAnswerHistories: BaseTable("user_answer_history") {
     val endTime = timestampWithTimeZone("end_time")
 
     val duration: Expression<Long>
-        get() = TimeDifferenceExpression(endTime, startTime)
+        get() = DurationExpression(endTime, startTime)
 }
