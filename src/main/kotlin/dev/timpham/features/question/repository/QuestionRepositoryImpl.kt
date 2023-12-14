@@ -21,14 +21,6 @@ class QuestionRepositoryImpl(
         }
     }
 
-    override suspend fun getQuestionWithAnswer(id: UUID): ResponseAlias<Question?> {
-        return questionDAO.getQuestionWithAnswersById(id)?.let {
-            Pair(HttpStatusCode.OK, BaseResponse(data = it))
-        } ?: kotlin.run {
-            Pair(HttpStatusCode.BadRequest, BaseResponse(messageCode = "NOT_FOUND_QUESTION"))
-        }
-    }
-
     override suspend fun getQuestionsByQuizId(quizId: UUID): ResponseAlias<List<Question>> {
         val quiz = quizDAO.getQuizById(quizId)
         quiz?.let {

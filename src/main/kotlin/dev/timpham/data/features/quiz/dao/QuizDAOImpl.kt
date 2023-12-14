@@ -5,7 +5,11 @@ import dev.timpham.data.features.quiz.entity.QuizEntity
 import dev.timpham.data.features.quiz.entity.Quizzes
 import dev.timpham.data.features.quiz.mapper.entityToQuiz
 import dev.timpham.data.features.quiz.models.Quiz
+import dev.timpham.data.features.quiz.models.QuizType
 import dev.timpham.data.features.quiz.models.request.QuizRequest
+import org.jetbrains.exposed.sql.andWhere
+import org.jetbrains.exposed.sql.lowerCase
+import org.jetbrains.exposed.sql.selectAll
 import java.util.UUID
 
 class QuizDAOImpl: QuizDAO {
@@ -37,19 +41,19 @@ class QuizDAOImpl: QuizDAO {
         }
     }
 
-    override suspend fun getQuizList(isActive: Boolean?): List<Quiz> = dbQuery {
-        // selectAll when isActive is null, else not null query with isActive
-        if (isActive != null) {
-            QuizEntity.find {
-                Quizzes.isActive eq isActive
-                Quizzes.isDeleted eq false
-            }.map(::entityToQuiz)
-        } else {
-            QuizEntity.find {
-                Quizzes.isDeleted eq false
-            }
-                .sortedByDescending { Quizzes.createdAtUTC }
-                .map(::entityToQuiz)
+    override suspend fun getQuizList(name: String?, type: QuizType?, isActive: Boolean?): List<Quiz> = dbQuery {
+        val query = Quizzes.selectAll()
+
+        name?.let {
+            query.andWhere { Quizzes.name.lowerCase() like "%${it.trim().lowercase()}%" }
         }
+        type?.let {
+            query.andWhere { Quizzes.type eq it }
+        }
+        isActive?.let {
+            query.andWhere { Quizzes.isActive eq it }
+        }
+        QuizEntity.wrapRows(query).map(::entityToQuiz)
+
     }
 }

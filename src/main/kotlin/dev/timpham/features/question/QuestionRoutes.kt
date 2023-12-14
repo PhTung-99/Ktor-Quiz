@@ -24,13 +24,7 @@ fun Route.questionRoutes() {
                 val response = questionRepository.getQuestionById(id)
                 call.respond(response.first, response.second)
             }
-
-            get("with-answers/{id}") {
-                val id = UUID.fromString(call.parameters["id"])
-                val response = questionRepository.getQuestionWithAnswer(id)
-                call.respond(response.first, response.second)
-            }
-
+            
             get("by-quiz/{quizId}") {
                 val quizId = UUID.fromString(call.parameters["quizId"])
                 val response = questionRepository.getQuestionsByQuizId(quizId)

@@ -1,6 +1,8 @@
 package dev.timpham.data.features.question.entity
 
 import dev.timpham.data.database.BaseEntity
+import dev.timpham.data.features.answers.entity.AnswerEntity
+import dev.timpham.data.features.answers.entity.Answers
 import dev.timpham.data.features.quiz.entity.QuizEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -15,4 +17,5 @@ class QuestionEntity(id: EntityID<UUID>): BaseEntity(id, Questions) {
     var score by Questions.score
     var quiz by QuizEntity referencedOn Questions.quiz
 
+    val answers by AnswerEntity referrersOn Answers.question
 }

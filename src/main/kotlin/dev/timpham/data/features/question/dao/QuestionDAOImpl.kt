@@ -28,17 +28,6 @@ class QuestionDAOImpl: QuestionDAO {
         }
     }
 
-    override suspend fun getQuestionWithAnswersById(id: UUID): Question? = dbQuery {
-        QuestionEntity.findById(id)?.let { question ->
-            val answers = AnswerEntity.find {
-                Answers.question eq id
-            }.map(::entityToAnswer)
-            return@dbQuery entityToQuestion(question).copy(answers = answers)
-        } ?: run {
-            return@dbQuery null
-        }
-    }
-
     override suspend fun createQuestion(questionRequest: QuestionRequest): Question = dbQuery {
         QuestionEntity.new {
             content = questionRequest.content

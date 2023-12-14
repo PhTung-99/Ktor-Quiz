@@ -2,6 +2,7 @@ package dev.timpham.features.quiz
 
 import dev.timpham.authentication.AppJWTPrincipal
 import dev.timpham.authentication.JWTUtils
+import dev.timpham.data.features.quiz.models.QuizType
 import dev.timpham.data.features.quiz.models.request.QuizRequest
 import dev.timpham.data.features.userAnswerHistory.models.SubmitRequest
 import dev.timpham.features.quiz.repository.QuizRepository
@@ -22,7 +23,9 @@ fun Route.quizRoutes() {
         authenticate(JWTUtils.CONFIGURATIONS_KEY) {
             get("") {
                 val isActive: Boolean? = call.request.queryParameters["isActive"]?.toBoolean()
-                val result = quizRepository.getQuizList(isActive)
+                val name: String? = call.request.queryParameters["name"]
+                val type: QuizType? = call.request.queryParameters["type"]?.let { QuizType.valueOf(it.uppercase()) }
+                val result = quizRepository.getQuizList(name = name, type = type, isActive = isActive)
                 call.respond(result.first, result.second)
             }
 

@@ -2,6 +2,7 @@ package dev.timpham.features.quiz.repository
 
 import dev.timpham.common.alias.ResponseAlias
 import dev.timpham.data.features.quiz.models.Quiz
+import dev.timpham.data.features.quiz.models.QuizType
 import dev.timpham.data.features.quiz.models.request.QuizRequest
 import dev.timpham.data.features.userAnswerHistory.models.SubmitRequest
 import dev.timpham.data.features.userAnswerHistory.models.UserAnswerHistory
@@ -11,7 +12,7 @@ interface QuizRepository {
 
     suspend fun getQuizById(id: UUID): ResponseAlias<Quiz?>
 
-    suspend fun getQuizList(isActive: Boolean?): ResponseAlias<List<Quiz>>
+    suspend fun getQuizList(name: String?, type: QuizType?, isActive: Boolean?): ResponseAlias<List<Quiz>>
 
     suspend fun createQuiz(quizRequest: QuizRequest): ResponseAlias<Quiz>
 

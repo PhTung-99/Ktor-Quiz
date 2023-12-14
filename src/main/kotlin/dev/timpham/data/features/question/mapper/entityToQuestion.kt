@@ -1,5 +1,6 @@
 package dev.timpham.data.features.question.mapper
 
+import dev.timpham.data.features.answers.mapper.entityToAnswer
 import dev.timpham.data.features.question.entity.QuestionEntity
 import dev.timpham.data.features.question.models.Question
 
@@ -10,6 +11,7 @@ fun entityToQuestion(entity: QuestionEntity): Question = Question(
     isMultipleChoice = entity.isMultipleChoice,
     score = entity.score,
     quizId = entity.quiz.id.value,
+    answers = entity.answers.map(::entityToAnswer),
     createdAtUTC = entity.createdAtUTC,
     isDeleted = entity.isDeleted,
 )
