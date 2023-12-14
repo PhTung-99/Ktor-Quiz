@@ -9,6 +9,7 @@ fun entityToQuiz(entity: QuizEntity): Quiz = Quiz(
     name = entity.name,
     description = entity.description,
     type = entity.type,
+    categoryId = entity.category.id.value,
     questions = entity.questions.map(::entityToQuestion),
     isActive = entity.isActive,
     createdAtUTC = entity.createdAtUTC,

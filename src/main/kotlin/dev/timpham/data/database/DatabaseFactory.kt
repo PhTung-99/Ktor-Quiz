@@ -1,6 +1,7 @@
 package dev.timpham.data.database
 
 import dev.timpham.data.features.answers.entity.Answers
+import dev.timpham.data.features.category.entity.Categories
 import dev.timpham.data.features.question.entity.Questions
 import dev.timpham.data.features.quiz.entity.Quizzes
 import dev.timpham.data.features.userAnswerHistory.entity.UserAnswerHistories
@@ -24,10 +25,11 @@ object DatabaseFactory {
             val user = AppProperties.postgresProperties.user
             val password = AppProperties.postgresProperties.password
             val database = Database.connect(jdbcURL, driverClassName, user, password)
-            database.connector() // Attempt to connect
+            database.connector()
             transaction(database) {
                 SchemaUtils.create(Users)
                 SchemaUtils.create(UserTokens)
+                SchemaUtils.create(Categories)
                 SchemaUtils.create(Quizzes)
                 SchemaUtils.create(Questions)
                 SchemaUtils.create(Answers)

@@ -1,21 +1,17 @@
-package dev.timpham.data.features.quiz.models
+package dev.timpham.data.features.category.models
 
-import dev.timpham.data.features.question.models.Question
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.Instant
 import java.util.UUID
 
 @Serializable
-data class Quiz(
+data class Category(
     @Contextual
     val id: UUID,
     val name: String,
     val description: String,
-    val type: QuizType,
-    @Contextual
-    val categoryId: UUID,
-    val questions: List<Question>? = null,
+    val icon: String,
     val isActive: Boolean,
     @Contextual
     val createdAtUTC: Instant,

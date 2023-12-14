@@ -1,6 +1,7 @@
 package dev.timpham.data.features.quiz.entity
 
 import dev.timpham.data.database.BaseEntity
+import dev.timpham.data.features.category.entity.CategoryEntity
 import dev.timpham.data.features.question.entity.QuestionEntity
 import dev.timpham.data.features.question.entity.Questions
 import org.jetbrains.exposed.dao.UUIDEntityClass
@@ -15,5 +16,6 @@ class QuizEntity(id: EntityID<UUID>): BaseEntity(id, Quizzes) {
     var type by Quizzes.type
     var isActive by Quizzes.isActive
 
+    var category by CategoryEntity referencedOn Quizzes.category
     val questions by QuestionEntity referrersOn Questions.quiz
 }

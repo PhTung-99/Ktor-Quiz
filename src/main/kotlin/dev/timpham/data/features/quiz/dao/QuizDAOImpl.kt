@@ -1,6 +1,7 @@
 package dev.timpham.data.features.quiz.dao
 
 import dev.timpham.data.database.DatabaseFactory.dbQuery
+import dev.timpham.data.features.category.entity.CategoryEntity
 import dev.timpham.data.features.quiz.entity.QuizEntity
 import dev.timpham.data.features.quiz.entity.Quizzes
 import dev.timpham.data.features.quiz.mapper.entityToQuiz
@@ -10,7 +11,7 @@ import dev.timpham.data.features.quiz.models.request.QuizRequest
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.lowerCase
 import org.jetbrains.exposed.sql.selectAll
-import java.util.UUID
+import java.util.*
 
 class QuizDAOImpl: QuizDAO {
     override suspend fun createQuiz(quizRequest: QuizRequest): Quiz = dbQuery {
@@ -18,6 +19,7 @@ class QuizDAOImpl: QuizDAO {
             name = quizRequest.name
             description = quizRequest.description
             isActive = quizRequest.isActive
+            category = CategoryEntity[quizRequest.categoryId]
             type = quizRequest.type
         }.let(::entityToQuiz)
     }
@@ -43,7 +45,6 @@ class QuizDAOImpl: QuizDAO {
 
     override suspend fun getQuizList(name: String?, type: QuizType?, isActive: Boolean?): List<Quiz> = dbQuery {
         val query = Quizzes.selectAll()
-
         name?.let {
             query.andWhere { Quizzes.name.lowerCase() like "%${it.trim().lowercase()}%" }
         }
@@ -54,6 +55,5 @@ class QuizDAOImpl: QuizDAO {
             query.andWhere { Quizzes.isActive eq it }
         }
         QuizEntity.wrapRows(query).map(::entityToQuiz)
-
     }
 }

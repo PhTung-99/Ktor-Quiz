@@ -6,14 +6,13 @@ import dev.timpham.data.features.quiz.models.QuizType
 import dev.timpham.data.features.quiz.models.request.QuizRequest
 import dev.timpham.data.features.userAnswerHistory.models.SubmitRequest
 import dev.timpham.features.quiz.repository.QuizRepository
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
-import java.util.*
+import java.util.UUID
 
 fun Route.quizRoutes() {
     val quizRepository: QuizRepository by inject()
@@ -61,27 +60,17 @@ fun Route.quizRoutes() {
             }
 
             post("submit/{id}") {
-                try {
-                    val id = UUID.fromString(call.parameters["id"])
-                    val request = call.receive<SubmitRequest>()
-                    val principal = call.principal<AppJWTPrincipal>()
-                    val result = quizRepository.submitAnswer(id, principal!!.user.id ,request)
-                    call.respond(result.first, result.second)
-                }
-                catch (e: Exception) {
-                    call.respond(HttpStatusCode.BadRequest, e.message ?: "Bad Request")
-                }
+                val id = UUID.fromString(call.parameters["id"])
+                val request = call.receive<SubmitRequest>()
+                val principal = call.principal<AppJWTPrincipal>()
+                val result = quizRepository.submitAnswer(id, principal!!.user.id, request)
+                call.respond(result.first, result.second)
             }
 
             get("leaderboard/{id}") {
-                try {
-                    val id = UUID.fromString(call.parameters["id"])
-                    val result = quizRepository.getLeaderboard(id)
-                    call.respond(result.first, result.second)
-                }
-                catch (e: Exception) {
-                    call.respond(HttpStatusCode.BadRequest, e.message ?: "Bad Request")
-                }
+                val id = UUID.fromString(call.parameters["id"])
+                val result = quizRepository.getLeaderboard(id)
+                call.respond(result.first, result.second)
             }
 
             get("my-score/{id}") {
