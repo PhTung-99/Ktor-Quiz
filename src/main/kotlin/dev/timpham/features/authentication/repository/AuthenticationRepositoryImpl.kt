@@ -5,7 +5,7 @@ import dev.timpham.common.alias.ResponseAlias
 import dev.timpham.common.constants.Constants
 import dev.timpham.common.models.BaseResponse
 import dev.timpham.data.features.user.dao.UserDAO
-import dev.timpham.data.features.user.dao.UserTokenDAO
+import dev.timpham.data.features.userTokens.dao.UserTokenDAO
 import dev.timpham.data.features.user.models.User
 import dev.timpham.data.models.JWTToken
 import dev.timpham.data.redis.RedisClient
@@ -143,7 +143,7 @@ class AuthenticationRepositoryImpl(
     }
 
     private suspend fun saveTokenToDB(refreshToken: String, userId: UUID) {
-        userDAO.saveRefreshToken(userId, refreshToken)
+        userTokenDAO.saveRefreshToken(userId, refreshToken)
     }
 
     private suspend fun onGenerateToken(user: User): JWTToken {

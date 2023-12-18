@@ -2,14 +2,10 @@ package dev.timpham.data.features.user.dao
 
 import dev.timpham.data.database.DatabaseFactory.dbQuery
 import dev.timpham.data.features.user.entity.UserEntity
-import dev.timpham.data.features.user.entity.UserTokens
 import dev.timpham.data.features.user.entity.Users
 import dev.timpham.data.features.user.mapper.entityToUser
 import dev.timpham.data.features.user.mapper.entityToUserWithPassword
-import dev.timpham.data.features.user.mapper.resultRowToUserToken
 import dev.timpham.data.features.user.models.User
-import dev.timpham.data.features.user.models.UserToken
-import org.jetbrains.exposed.sql.insert
 import java.util.*
 
 class UserDAOImpl: UserDAO {
@@ -40,11 +36,4 @@ class UserDAOImpl: UserDAO {
         UserEntity.findById(id)?.let(::entityToUser)
     }
 
-    override suspend fun saveRefreshToken(userId: UUID, refreshToken: String): UserToken? = dbQuery {
-        val createStatement = UserTokens.insert {
-            it[UserTokens.userId] = userId
-            it[UserTokens.refreshToken] = refreshToken
-        }
-        createStatement.resultedValues?.singleOrNull()?.let(::resultRowToUserToken)
-    }
 }

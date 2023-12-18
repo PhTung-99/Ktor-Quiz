@@ -1,4 +1,4 @@
-package dev.timpham.data.features.user.models
+package dev.timpham.data.features.userTokens.models
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable

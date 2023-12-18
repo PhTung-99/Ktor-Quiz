@@ -1,4 +1,4 @@
-package dev.timpham.data.features.roles.mapper
+package dev.timpham.data.features.roles.models
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable

@@ -3,15 +3,16 @@ package dev.timpham.data.features.roles.dao
 import dev.timpham.data.database.DatabaseFactory.dbQuery
 import dev.timpham.data.features.roles.entity.RoleEntity
 import dev.timpham.data.features.roles.entity.Roles
-import dev.timpham.data.features.roles.mapper.Role
-import dev.timpham.data.features.roles.models.entityToRole
+import dev.timpham.data.features.roles.models.Role
+import dev.timpham.data.features.roles.mapper.entityToRole
+import dev.timpham.data.features.roles.models.requests.RoleRequest
 import java.util.UUID
 
 class RoleDAOImpl: RoleDAO {
-    override suspend fun createRole(name: String, description: String): Role = dbQuery {
+    override suspend fun createRole(roleRequest: RoleRequest): Role = dbQuery {
         RoleEntity.new {
-            this.name = name
-            this.description = description
+            name = roleRequest.name
+            description = roleRequest.description
         }.let(::entityToRole)
     }
 

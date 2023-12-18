@@ -4,9 +4,11 @@ import dev.timpham.data.features.answers.entity.Answers
 import dev.timpham.data.features.category.entity.Categories
 import dev.timpham.data.features.question.entity.Questions
 import dev.timpham.data.features.quiz.entity.Quizzes
+import dev.timpham.data.features.roles.entity.Roles
+import dev.timpham.data.features.userRoles.entity.UserRoles
 import dev.timpham.data.features.userAnswerHistory.entity.UserAnswerHistories
 import dev.timpham.data.features.user.entity.Users
-import dev.timpham.data.features.user.entity.UserTokens
+import dev.timpham.data.features.userTokens.entity.UserTokens
 import dev.timpham.property.AppProperties
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -27,7 +29,9 @@ object DatabaseFactory {
             val database = Database.connect(jdbcURL, driverClassName, user, password)
             database.connector()
             transaction(database) {
+                SchemaUtils.create(Roles)
                 SchemaUtils.create(Users)
+                SchemaUtils.create(UserRoles)
                 SchemaUtils.create(UserTokens)
                 SchemaUtils.create(Categories)
                 SchemaUtils.create(Quizzes)

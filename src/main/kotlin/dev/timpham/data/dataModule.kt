@@ -14,8 +14,8 @@ import dev.timpham.data.features.userAnswerHistory.dao.UserAnswerHistoryDAO
 import dev.timpham.data.features.userAnswerHistory.dao.UserAnswerHistoryDAOImpl
 import dev.timpham.data.features.user.dao.UserDAO
 import dev.timpham.data.features.user.dao.UserDAOImpl
-import dev.timpham.data.features.user.dao.UserTokenDAO
-import dev.timpham.data.features.user.dao.UserTokenDAOImpl
+import dev.timpham.data.features.userTokens.dao.UserTokenDAO
+import dev.timpham.data.features.userTokens.dao.UserTokenDAOImpl
 import org.koin.dsl.module
 
 val dataModule = module {
