@@ -10,6 +10,6 @@ class CategoryEntity(id: EntityID<UUID>): BaseEntity(id, Categories) {
 
     var name by Categories.name
     var description by Categories.description
-    var icon by Categories.icon
+//    var icon by Categories.icon
     var isActive by Categories.isActive
 }

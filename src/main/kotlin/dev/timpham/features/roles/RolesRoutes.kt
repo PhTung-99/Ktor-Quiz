@@ -1,10 +1,8 @@
 package dev.timpham.features.roles
 
-import dev.timpham.core.authentication.JWTUtils
 import dev.timpham.data.features.roles.models.requests.RoleRequest
 import dev.timpham.features.roles.repository.RoleRepository
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -16,9 +14,7 @@ fun Route.rolesRoutes() {
 
     val roleRepository: RoleRepository by inject()
 
-
     route("/roles") {
-        authenticate(JWTUtils.CONFIGURATIONS_KEY) {
             get {
                 val result = roleRepository.getRoles()
                 call.respond(result.first, result.second)
@@ -49,5 +45,5 @@ fun Route.rolesRoutes() {
                 call.respond(result)
             }
         }
-    }
+
 }

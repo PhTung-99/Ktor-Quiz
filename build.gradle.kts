@@ -7,6 +7,7 @@ val exposed_version: String by project
 val postgresql_version: String by project
 val koin_version: String by project
 val jedis_version: String by project
+val flyway_version: String by project
 
 plugins {
     kotlin("jvm") version "1.9.21"
@@ -59,6 +60,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
 
     implementation("org.postgresql:postgresql:$postgresql_version")
+    // flyway
+    implementation("org.flywaydb:flyway-core:$flyway_version")
 
     //jedis
     implementation("redis.clients:jedis:$jedis_version")

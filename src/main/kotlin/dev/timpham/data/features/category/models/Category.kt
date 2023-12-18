@@ -11,7 +11,7 @@ data class Category(
     val id: UUID,
     val name: String,
     val description: String,
-    val icon: String,
+//    val icon: String,
     val isActive: Boolean,
     @Contextual
     val createdAtUTC: Instant,

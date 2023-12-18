@@ -31,7 +31,7 @@ class CategoryDAOImpl: CategoryDAO {
         CategoryEntity.new {
             name = categoryRequest.name
             description = categoryRequest.description
-            icon = categoryRequest.icon
+//            icon = categoryRequest.icon
             isActive = categoryRequest.isActive
         }.let(::entityToCategory)
     }
@@ -40,7 +40,7 @@ class CategoryDAOImpl: CategoryDAO {
         CategoryEntity.findById(id)?.apply {
             name = categoryRequest.name
             description = categoryRequest.description
-            icon = categoryRequest.icon
+//            icon = categoryRequest.icon
             isActive = categoryRequest.isActive
         }?.let(::entityToCategory)
     }

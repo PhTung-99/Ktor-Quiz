@@ -11,5 +11,5 @@ class UserTokenEntity(id: EntityID<UUID>): BaseEntity(id, UserTokens) {
 
     var user by UserEntity referencedOn UserTokens.user
     var refreshToken by UserTokens.refreshToken
-    var createAtUTC by UserTokens.createAtUTC
+    var createAtUTC by UserTokens.createdAtUTC
 }

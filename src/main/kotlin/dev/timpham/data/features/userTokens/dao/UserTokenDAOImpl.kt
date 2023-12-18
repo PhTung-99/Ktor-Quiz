@@ -15,7 +15,7 @@ class UserTokenDAOImpl: UserTokenDAO {
         UserTokens.select {
             UserTokens.user eq userId
         }
-            .orderBy(UserTokens.createAtUTC, SortOrder.DESC)
+            .orderBy(UserTokens.createdAtUTC, SortOrder.DESC)
             .limit(1)
             .singleOrNull()?.let {
                 UserTokenEntity.wrapRow(it).let(::entityToUserToken)
