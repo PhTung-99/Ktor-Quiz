@@ -10,12 +10,15 @@ import dev.timpham.features.question.repository.QuestionRepository
 import dev.timpham.features.question.repository.QuestionRepositoryImpl
 import dev.timpham.features.quiz.repository.QuizRepository
 import dev.timpham.features.quiz.repository.QuizRepositoryImpl
+import dev.timpham.features.roles.repository.RoleRepository
+import dev.timpham.features.roles.repository.RoleRepositoryImpl
 import dev.timpham.features.user.repository.UserRepository
 import dev.timpham.features.user.repository.UserRepositoryImpl
 import org.koin.dsl.module
 
 val featuresModule = module {
     single<UserRepository> { UserRepositoryImpl(get()) }
+    single<RoleRepository> { RoleRepositoryImpl(get()) }
     single<AuthenticationRepository> { AuthenticationRepositoryImpl(get(), get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
     single<QuizRepository> { QuizRepositoryImpl(get(),get(), get(), get()) }

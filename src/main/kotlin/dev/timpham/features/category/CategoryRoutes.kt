@@ -1,6 +1,6 @@
 package dev.timpham.features.category
 
-import dev.timpham.authentication.JWTUtils
+import dev.timpham.core.authentication.JWTUtils
 import dev.timpham.data.features.category.models.CategoryRequest
 import dev.timpham.features.category.repository.CategoryRepository
 import io.ktor.server.application.*

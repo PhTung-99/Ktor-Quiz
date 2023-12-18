@@ -1,6 +1,6 @@
 package dev.timpham.features.answer
 
-import dev.timpham.authentication.JWTUtils
+import dev.timpham.core.authentication.JWTUtils
 import dev.timpham.data.features.answers.models.AnswerRequest
 import dev.timpham.features.answer.repository.AnswerRepository
 import io.ktor.server.application.*

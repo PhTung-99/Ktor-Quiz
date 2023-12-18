@@ -1,6 +1,6 @@
 package dev.timpham.data.models
 
-import dev.timpham.authentication.JWTUtils
+import dev.timpham.core.authentication.JWTUtils
 import kotlinx.serialization.Serializable
 
 @Serializable

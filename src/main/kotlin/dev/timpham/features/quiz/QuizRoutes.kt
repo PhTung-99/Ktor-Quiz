@@ -1,7 +1,7 @@
 package dev.timpham.features.quiz
 
-import dev.timpham.authentication.AppJWTPrincipal
-import dev.timpham.authentication.JWTUtils
+import dev.timpham.core.authentication.AppJWTPrincipal
+import dev.timpham.core.authentication.JWTUtils
 import dev.timpham.data.features.quiz.models.QuizType
 import dev.timpham.data.features.quiz.models.request.QuizRequest
 import dev.timpham.data.features.userAnswerHistory.models.SubmitRequest

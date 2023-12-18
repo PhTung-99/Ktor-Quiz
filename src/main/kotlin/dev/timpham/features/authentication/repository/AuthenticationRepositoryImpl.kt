@@ -1,6 +1,6 @@
 package dev.timpham.features.authentication.repository
 
-import dev.timpham.authentication.JWTUtils
+import dev.timpham.core.authentication.JWTUtils
 import dev.timpham.common.alias.ResponseAlias
 import dev.timpham.common.constants.Constants
 import dev.timpham.common.models.BaseResponse
