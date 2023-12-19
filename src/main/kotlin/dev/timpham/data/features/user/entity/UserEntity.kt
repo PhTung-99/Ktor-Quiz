@@ -12,4 +12,5 @@ class UserEntity(id: EntityID<UUID>): BaseEntity(id, Users) {
     var password by Users.password
     var email by Users.email
     var avatar by Users.avatar
+    var role by Users.role
 }

@@ -8,8 +8,6 @@ import dev.timpham.data.features.question.dao.QuestionDAO
 import dev.timpham.data.features.question.dao.QuestionDAOImpl
 import dev.timpham.data.features.quiz.dao.QuizDAO
 import dev.timpham.data.features.quiz.dao.QuizDAOImpl
-import dev.timpham.data.features.roles.dao.RoleDAO
-import dev.timpham.data.features.roles.dao.RoleDAOImpl
 import dev.timpham.data.features.userAnswerHistory.dao.UserAnswerHistoryDAO
 import dev.timpham.data.features.userAnswerHistory.dao.UserAnswerHistoryDAOImpl
 import dev.timpham.data.features.user.dao.UserDAO
@@ -20,7 +18,6 @@ import org.koin.dsl.module
 
 val dataModule = module {
     single<UserDAO> { UserDAOImpl() }
-    single<RoleDAO> { RoleDAOImpl() }
     single<UserTokenDAO> { UserTokenDAOImpl() }
 
     single<CategoryDAO> { CategoryDAOImpl() }
