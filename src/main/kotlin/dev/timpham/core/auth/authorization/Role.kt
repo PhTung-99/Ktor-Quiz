@@ -1,4 +1,4 @@
-package dev.timpham.data.features.user.models
+package dev.timpham.core.auth.authorization
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

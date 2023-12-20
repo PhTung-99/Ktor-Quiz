@@ -2,7 +2,7 @@ package dev.timpham.data.features.user.entity
 
 
 import dev.timpham.data.database.BaseTable
-import dev.timpham.data.features.user.models.Role
+import dev.timpham.core.auth.authorization.Role
 
 object Users : BaseTable("user") {
     val name = varchar("name", 50)

@@ -13,6 +13,7 @@ fun entityToUserWithPassword(entity: UserEntity) = User(
     avatar = entity.avatar?.let {
         return@let Constants.USER_IMAGES_ROUTE + entity.avatar
     },
+    role = entity.role,
     isDeleted = entity.isDeleted,
 )
 
@@ -24,5 +25,6 @@ fun entityToUser(entity: UserEntity) = User(
     avatar = entity.avatar?.let {
         return@let Constants.USER_IMAGES_ROUTE + entity.avatar
     },
+    role = entity.role,
     isDeleted = entity.isDeleted,
 )

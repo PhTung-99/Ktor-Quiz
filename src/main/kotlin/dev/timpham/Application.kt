@@ -1,6 +1,6 @@
 package dev.timpham
 
-import dev.timpham.core.authentication.configAuthentication
+import dev.timpham.core.auth.configAuthentication
 import dev.timpham.data.database.DatabaseFactory
 import dev.timpham.data.redis.RedisClient
 import dev.timpham.data.validation.validationConfig

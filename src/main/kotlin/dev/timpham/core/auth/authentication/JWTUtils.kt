@@ -1,4 +1,4 @@
-package dev.timpham.core.authentication
+package dev.timpham.core.auth.authentication
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
@@ -45,6 +45,7 @@ object JWTUtils {
             .withAudience(properties.audience)
             .withIssuer(properties.issuer)
             .withClaim(USER_ID_KEY, user.id.toString())
+            .withClaim("role", user.role.toString())
             .withExpiresAt(getExpiration())
             .sign(Algorithm.HMAC256(properties.secret))
     }

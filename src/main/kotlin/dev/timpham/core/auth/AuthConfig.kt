@@ -1,19 +1,19 @@
-package dev.timpham.core.authentication
+package dev.timpham.core.auth
 
 import dev.timpham.common.constants.Expressions
+import dev.timpham.core.auth.authentication.AppJWTPrincipal
+import dev.timpham.core.auth.authentication.JWTUtils
+import dev.timpham.core.auth.authorization.Role
+import dev.timpham.core.auth.authorization.roleBased
 import dev.timpham.features.authentication.constants.AuthenticationMessageCode
-import dev.timpham.features.user.repository.UserRepository
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
-import org.koin.ktor.ext.inject
 import java.util.*
 
 fun Application.configAuthentication() {
-
-    val userRepository: UserRepository by inject()
 
     install(Authentication) {
         jwt(JWTUtils.CONFIGURATIONS_KEY) {
@@ -23,12 +23,12 @@ fun Application.configAuthentication() {
             }
             validate { jwtCredential ->
                 val userId = jwtCredential.payload.getClaim("userId").asString()
-                if (userId != "") {
+                val role = jwtCredential.payload.getClaim("role").asString()
+                if (userId != "" && role != "") {
                     if (Expressions.UUID_REGEX.matcher(userId).matches()) {
                         val uuid = UUID.fromString(userId)
-                        userRepository.getUserInfo(uuid).second.data?.let { user ->
-                            AppJWTPrincipal(jwtCredential.payload, user)
-                        }
+                        val roleEnum = Role.valueOf(role)
+                        AppJWTPrincipal(jwtCredential.payload, uuid, roleEnum)
                     }
                     else {
                         null
@@ -44,5 +44,13 @@ fun Application.configAuthentication() {
                 )
             }
         }
+
+        roleBased {
+            extractRoles { principal ->
+                //Extract roles from JWT payload
+                principal.role
+            }
+        }
     }
+
 }

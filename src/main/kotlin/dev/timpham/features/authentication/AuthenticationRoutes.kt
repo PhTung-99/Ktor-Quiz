@@ -1,7 +1,7 @@
 package dev.timpham.features.authentication
 
-import dev.timpham.core.authentication.JWTUtils
-import dev.timpham.core.authentication.getToken
+import dev.timpham.core.auth.authentication.JWTUtils
+import dev.timpham.core.auth.authentication.getToken
 import dev.timpham.common.models.BaseResponse
 import dev.timpham.features.authentication.constants.AuthenticationMessageCode
 import dev.timpham.features.authentication.models.requests.LoginRequest

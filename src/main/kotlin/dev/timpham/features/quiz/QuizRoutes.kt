@@ -1,7 +1,7 @@
 package dev.timpham.features.quiz
 
-import dev.timpham.core.authentication.AppJWTPrincipal
-import dev.timpham.core.authentication.JWTUtils
+import dev.timpham.core.auth.authentication.AppJWTPrincipal
+import dev.timpham.core.auth.authentication.JWTUtils
 import dev.timpham.data.features.quiz.models.QuizType
 import dev.timpham.data.features.quiz.models.request.QuizRequest
 import dev.timpham.data.features.userAnswerHistory.models.SubmitRequest
@@ -63,7 +63,7 @@ fun Route.quizRoutes() {
                 val id = UUID.fromString(call.parameters["id"])
                 val request = call.receive<SubmitRequest>()
                 val principal = call.principal<AppJWTPrincipal>()
-                val result = quizRepository.submitAnswer(id, principal!!.user.id, request)
+                val result = quizRepository.submitAnswer(id, principal!!.userId, request)
                 call.respond(result.first, result.second)
             }
 
@@ -76,7 +76,7 @@ fun Route.quizRoutes() {
             get("my-score/{id}") {
                 val id = UUID.fromString(call.parameters["id"])
                 val principal = call.principal<AppJWTPrincipal>()
-                val result = quizRepository.getUserScore(id, principal!!.user.id)
+                val result = quizRepository.getUserScore(id, principal!!.userId)
                 call.respond(result.first, result.second)
             }
         }

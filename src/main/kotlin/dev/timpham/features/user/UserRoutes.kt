@@ -1,7 +1,7 @@
 package dev.timpham.features.user
 
-import dev.timpham.core.authentication.AppJWTPrincipal
-import dev.timpham.core.authentication.JWTUtils
+import dev.timpham.core.auth.authentication.AppJWTPrincipal
+import dev.timpham.core.auth.authentication.JWTUtils
 import dev.timpham.features.user.repository.UserRepository
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -18,7 +18,7 @@ fun Route.userRoutes() {
         authenticate(JWTUtils.CONFIGURATIONS_KEY) {
             get("info") {
                 val principal = call.principal<AppJWTPrincipal>()
-                val response = userRepository.getUserInfo(principal!!.user.id)
+                val response = userRepository.getUserInfo(principal!!.userId)
                 call.respond(response.first, response.second)
             }
         }

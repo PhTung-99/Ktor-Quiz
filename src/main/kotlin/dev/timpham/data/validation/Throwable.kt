@@ -1,5 +1,6 @@
 package dev.timpham.data.validation
 
+import dev.timpham.core.auth.authorization.UnauthorizedAccessException
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
@@ -20,6 +21,9 @@ fun Application.validationConfig() {
         }
         exception<BadRequestException> { call, _ ->
             call.respond(HttpStatusCode.BadRequest, mapOf("messageCode" to "INVALID_REQUEST"))
+        }
+        exception<UnauthorizedAccessException> { call, _ ->
+            call.respond(HttpStatusCode.Forbidden, mapOf("messageCode" to "FORBIDDEN"))
         }
     }
 }
