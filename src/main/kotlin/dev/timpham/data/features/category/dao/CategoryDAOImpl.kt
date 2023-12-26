@@ -46,9 +46,9 @@ class CategoryDAOImpl: CategoryDAO {
     }
 
     override suspend fun deleteCategory(id: UUID): Boolean = dbQuery {
-        CategoryEntity.findById(id)?.let {
-            it.delete()
-            return@dbQuery it.isDeleted
+        CategoryEntity.findById(id)?.run {
+            this.isDeleted = true
+            return@dbQuery true
         } ?: false
     }
 }

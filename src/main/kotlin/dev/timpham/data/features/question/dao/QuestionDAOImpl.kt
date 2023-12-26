@@ -1,9 +1,9 @@
 package dev.timpham.data.features.question.dao
 
 import dev.timpham.data.database.DatabaseFactory.dbQuery
-import dev.timpham.data.features.answers.entity.AnswerEntity
-import dev.timpham.data.features.answers.entity.Answers
-import dev.timpham.data.features.answers.mapper.entityToAnswer
+import dev.timpham.data.features.answer.entity.AnswerEntity
+import dev.timpham.data.features.answer.entity.Answers
+import dev.timpham.data.features.answer.mapper.entityToAnswer
 import dev.timpham.data.features.question.entity.QuestionEntity
 import dev.timpham.data.features.question.entity.Questions
 import dev.timpham.data.features.question.mapper.entityToQuestion
@@ -49,9 +49,9 @@ class QuestionDAOImpl: QuestionDAO {
     }
 
     override suspend fun deleteQuestion(id: UUID): Boolean = dbQuery {
-        QuestionEntity.findById(id)?.let {
-            it.delete()
-            return@dbQuery it.isDeleted
+        QuestionEntity.findById(id)?.run {
+            this.isDeleted = true
+            return@dbQuery true
         } ?: false
     }
 }

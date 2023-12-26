@@ -1,6 +1,6 @@
 package dev.timpham.data.features.question.models
 
-import dev.timpham.data.features.answers.models.AnswerRequest
+import dev.timpham.data.features.answer.models.AnswerRequest
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.util.*

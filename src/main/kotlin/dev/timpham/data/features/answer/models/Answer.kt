@@ -1,22 +1,18 @@
-package dev.timpham.data.features.question.models
+package dev.timpham.data.features.answer.models
 
-import dev.timpham.data.features.answer.models.Answer
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.time.Instant
 import java.util.UUID
 
 @Serializable
-data class Question(
+data class Answer(
     @Contextual
     val id: UUID,
     val content: String,
-    val highlight: String? = null,
-    val isMultipleChoice: Boolean,
-    val score: Int,
+    val isCorrect: Boolean,
     @Contextual
-    val quizId: UUID,
-    val answers: List<Answer>? = null,
+    val questionId: UUID,
     @Contextual
     val createdAtUTC: Instant,
     val isDeleted: Boolean,

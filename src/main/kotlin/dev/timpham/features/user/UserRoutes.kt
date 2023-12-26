@@ -2,7 +2,7 @@ package dev.timpham.features.user
 
 import dev.timpham.core.auth.authentication.AppJWTPrincipal
 import dev.timpham.core.auth.authentication.JWTUtils
-import dev.timpham.features.user.repository.UserRepository
+import dev.timpham.data.features.user.repository.UserRepository
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*

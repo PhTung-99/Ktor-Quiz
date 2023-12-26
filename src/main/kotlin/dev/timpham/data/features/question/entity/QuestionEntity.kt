@@ -1,8 +1,8 @@
 package dev.timpham.data.features.question.entity
 
 import dev.timpham.data.database.BaseEntity
-import dev.timpham.data.features.answers.entity.AnswerEntity
-import dev.timpham.data.features.answers.entity.Answers
+import dev.timpham.data.features.answer.entity.AnswerEntity
+import dev.timpham.data.features.answer.entity.Answers
 import dev.timpham.data.features.quiz.entity.QuizEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

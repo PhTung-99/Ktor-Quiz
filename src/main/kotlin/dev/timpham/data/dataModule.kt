@@ -1,7 +1,7 @@
 package dev.timpham.data
 
-import dev.timpham.data.features.answers.dao.AnswerDAO
-import dev.timpham.data.features.answers.dao.AnswerDAOImpl
+import dev.timpham.data.features.answer.dao.AnswerDAO
+import dev.timpham.data.features.answer.dao.AnswerDAOImpl
 import dev.timpham.data.features.category.dao.CategoryDAO
 import dev.timpham.data.features.category.dao.CategoryDAOImpl
 import dev.timpham.data.features.question.dao.QuestionDAO

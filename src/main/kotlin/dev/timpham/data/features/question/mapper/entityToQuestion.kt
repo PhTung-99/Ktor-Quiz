@@ -1,6 +1,6 @@
 package dev.timpham.data.features.question.mapper
 
-import dev.timpham.data.features.answers.mapper.entityToAnswer
+import dev.timpham.data.features.answer.mapper.entityToAnswer
 import dev.timpham.data.features.question.entity.QuestionEntity
 import dev.timpham.data.features.question.models.Question
 

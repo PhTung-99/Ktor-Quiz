@@ -4,7 +4,6 @@ import dev.timpham.core.auth.authentication.JWTUtils
 import dev.timpham.core.auth.authorization.Role
 import dev.timpham.core.auth.authorization.withRole
 import dev.timpham.data.features.category.models.CategoryRequest
-import dev.timpham.features.category.repository.CategoryRepository
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
@@ -15,40 +14,40 @@ import java.util.UUID
 
 fun Route.categoryRoutes() {
 
-    val categoryRepository: CategoryRepository by inject()
+    val categoryService: CategoryService by inject()
 
     route("/category") {
         authenticate(JWTUtils.CONFIGURATIONS_KEY) {
             get {
                 val name = call.parameters["name"]
                 val isActive = call.parameters["isActive"]?.toBoolean()
-                val response = categoryRepository.getAllCategories(name, isActive)
+                val response = categoryService.getAllCategories(name, isActive)
                 call.respond(response.first, response.second)
             }
 
             get("/{id}") {
                 val id = UUID.fromString(call.parameters["id"])
-                val response = categoryRepository.getCategoryById(id)
+                val response = categoryService.getCategoryById(id)
                 call.respond(response.first, response.second)
             }
 
             withRole(Role.ADMIN) {
                 post {
                     val categoryRequest = call.receive<CategoryRequest>()
-                    val response = categoryRepository.createCategory(categoryRequest)
+                    val response = categoryService.createCategory(categoryRequest)
                     call.respond(response.first, response.second)
                 }
 
                 put("/{id}") {
                     val id = UUID.fromString(call.parameters["id"])
                     val categoryRequest = call.receive<CategoryRequest>()
-                    val response = categoryRepository.updateCategory(id, categoryRequest)
+                    val response = categoryService.updateCategory(id, categoryRequest)
                     call.respond(response.first, response.second)
                 }
 
                 delete("/{id}") {
                     val id = UUID.fromString(call.parameters["id"])
-                    val response = categoryRepository.deleteCategory(id)
+                    val response = categoryService.deleteCategory(id)
                     call.respond(response.first, response.second)
                 }
             }

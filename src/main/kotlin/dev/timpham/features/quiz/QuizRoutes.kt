@@ -5,7 +5,6 @@ import dev.timpham.core.auth.authentication.JWTUtils
 import dev.timpham.data.features.quiz.models.QuizType
 import dev.timpham.data.features.quiz.models.request.QuizRequest
 import dev.timpham.data.features.userAnswerHistory.models.SubmitRequest
-import dev.timpham.features.quiz.repository.QuizRepository
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
@@ -15,7 +14,7 @@ import org.koin.ktor.ext.inject
 import java.util.UUID
 
 fun Route.quizRoutes() {
-    val quizRepository: QuizRepository by inject()
+    val quizService: QuizService by inject()
 
     route("/quiz") {
 
@@ -24,38 +23,32 @@ fun Route.quizRoutes() {
                 val isActive: Boolean? = call.request.queryParameters["isActive"]?.toBoolean()
                 val name: String? = call.request.queryParameters["name"]
                 val type: QuizType? = call.request.queryParameters["type"]?.let { QuizType.valueOf(it.uppercase()) }
-                val result = quizRepository.getQuizList(name = name, type = type, isActive = isActive)
+                val result = quizService.getQuizList(name = name, type = type, isActive = isActive)
                 call.respond(result.first, result.second)
             }
 
             get("{id}") {
                 val uuidId = UUID.fromString(call.parameters["id"])
-                val result = quizRepository.getQuizById(uuidId)
+                val result = quizService.getQuizById(uuidId)
                 call.respond(result.first, result.second)
             }
 
             post {
                 val request = call.receive<QuizRequest>()
-                val result = quizRepository.createQuiz(request)
+                val result = quizService.createQuiz(request)
                 call.respond(result.first, result.second)
             }
 
             put("{id}") {
                 val id = UUID.fromString(call.parameters["id"])
                 val request = call.receive<QuizRequest>()
-                val result = quizRepository.updateQuiz(id, request)
+                val result = quizService.updateQuiz(id, request)
                 call.respond(result.first, result.second)
             }
 
             delete("{id}") {
                 val id = UUID.fromString(call.parameters["id"])
-                val result = quizRepository.deleteQuiz(id)
-                call.respond(result.first, result.second)
-            }
-
-            get("play/{id}") {
-                val id = UUID.fromString(call.parameters["id"])
-                val result = quizRepository.playQuiz(id)
+                val result = quizService.deleteQuiz(id)
                 call.respond(result.first, result.second)
             }
 
@@ -63,20 +56,20 @@ fun Route.quizRoutes() {
                 val id = UUID.fromString(call.parameters["id"])
                 val request = call.receive<SubmitRequest>()
                 val principal = call.principal<AppJWTPrincipal>()
-                val result = quizRepository.submitAnswer(id, principal!!.userId, request)
+                val result = quizService.submitAnswer(id, principal!!.userId, request)
                 call.respond(result.first, result.second)
             }
 
             get("leaderboard/{id}") {
                 val id = UUID.fromString(call.parameters["id"])
-                val result = quizRepository.getLeaderboard(id)
+                val result = quizService.getLeaderboard(id)
                 call.respond(result.first, result.second)
             }
 
             get("my-score/{id}") {
                 val id = UUID.fromString(call.parameters["id"])
                 val principal = call.principal<AppJWTPrincipal>()
-                val result = quizRepository.getUserScore(id, principal!!.userId)
+                val result = quizService.getUserScore(id, principal!!.userId)
                 call.respond(result.first, result.second)
             }
         }

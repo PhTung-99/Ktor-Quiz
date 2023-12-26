@@ -11,6 +11,6 @@ interface QuizDAO {
     ): Quiz
     suspend fun getQuizById(id: UUID): Quiz?
     suspend fun updateQuiz(id: UUID, quizRequest: QuizRequest): Quiz?
-    suspend fun deleteQuiz(id: UUID)
+    suspend fun deleteQuiz(id: UUID): Boolean
     suspend fun getQuizList(name: String?, type: QuizType?, isActive: Boolean?): List<Quiz>
 }

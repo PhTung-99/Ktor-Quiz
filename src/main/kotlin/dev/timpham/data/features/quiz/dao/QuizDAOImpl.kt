@@ -37,10 +37,11 @@ class QuizDAOImpl: QuizDAO {
         }?.let(::entityToQuiz)
     }
 
-    override suspend fun deleteQuiz(id: UUID): Unit = dbQuery {
-        QuizEntity.findById(id)?.apply {
+    override suspend fun deleteQuiz(id: UUID): Boolean = dbQuery {
+        QuizEntity.findById(id)?.run {
             this.isDeleted = true
-        }
+            return@dbQuery true
+        } ?: false
     }
 
     override suspend fun getQuizList(name: String?, type: QuizType?, isActive: Boolean?): List<Quiz> = dbQuery {
