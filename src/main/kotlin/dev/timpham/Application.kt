@@ -6,10 +6,11 @@ import dev.timpham.data.redis.RedisClient
 import dev.timpham.data.validation.validationConfig
 import dev.timpham.di.configureKoin
 import dev.timpham.logging.configureLogging
-import dev.timpham.property.AppProperties
-import dev.timpham.routes.*
-import dev.timpham.utils.fileInit
+import dev.timpham.plugin.configCORS
 import dev.timpham.plugin.serializable.configureSerializable
+import dev.timpham.property.AppProperties
+import dev.timpham.routes.configureRouting
+import dev.timpham.utils.fileInit
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -22,6 +23,7 @@ fun Application.module() {
     fileInit()
     DatabaseFactory.init()
     RedisClient.init()
+    configCORS()
     validationConfig()
     configureSerializable()
     configureLogging()
